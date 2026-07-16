@@ -29,6 +29,29 @@ documented in the repository.
 - Do not rewrite unrelated files.
 - Do not change public interfaces silently.
 
+## Research-Code Style
+
+This is a private engineering research codebase, not a general-purpose
+software library.
+
+- Keep scientific functions short and visually close to the equations.
+- Use standard mathematical notation such as `mu`, `r1`, `r2`, `xdot`,
+  `xddot`, `Phi`, and `A`.
+- Do not add extensive defensive input validation to low-level mathematical
+  functions.
+- Perform basic input validation only at major user-facing boundaries, such
+  as propagation or targeting functions.
+- Do not repeat the full mathematical model in every function docstring.
+  Refer to the documentation in `docs/` for detailed conventions.
+- Prefer one-line or short docstrings for straightforward mathematical
+  functions.
+- Prioritize tests of scientific behavior over tests of artificial input
+  restrictions.
+- Do not create helper functions, classes, result objects, or abstractions
+  unless the current research method requires them.
+- A transparent ten-line implementation is preferable to a generalized
+  fifty-line implementation.
+
 ## Python Conventions
 
 - Use Python 3.12 or later.
@@ -37,7 +60,8 @@ documented in the repository.
 - Add scientific docstrings describing state order, units, reference frame,
   inputs, outputs, and assumptions.
 - Avoid explicit matrix inversion when solving numerical systems.
-- Use descriptive names rather than unexplained numerical indices.
+- Use standard mathematical names when they correspond directly to the
+  documented equations. Avoid unexplained indices or abbreviations.
 
 ## Required Checks
 
