@@ -1,0 +1,42 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Package build products
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Testing and linting caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter temporary files
+.ipynb_checkpoints/
+
+# VS Code local settings
+.vscode/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Generated research outputs
+results/figures/*
+results/tables/*
+results/orbit_families/*
+
+# Processed data
+data/processed/*
+
+# Keep the empty directory placeholders
+!results/figures/.gitkeep
+!results/tables/.gitkeep
+!results/orbit_families/.gitkeep
+!data/processed/.gitkeep
