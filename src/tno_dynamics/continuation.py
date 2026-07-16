@@ -83,3 +83,46 @@ def continue_halo_orbit(
         state0[control_indices] += correction
 
     raise RuntimeError(f"halo continuation did not converge in {max_iterations} iterations")
+
+
+def grow_halo_family(
+    first_state: ArrayLike,
+    second_state: ArrayLike,
+    first_half_period: float,
+    second_half_period: float,
+    mu: float,
+    number_of_orbits: int = 25,
+    step_size: float = 2e-4,
+    tol: float = 1e-10,
+    max_iterations: int = 20,
+    t_max: float = 5.0,
+) -> tuple[NDArray[np.float64], NDArray[np.float64], list[NDArray[np.float64]]]:
+    """Grow a symmetric halo family from two corrected seed orbits."""
+    first_state = np.asarray(first_state, dtype=float).copy()
+    second_state = np.asarray(second_state, dtype=float).copy()
+    if first_state.shape != (6,):
+        raise ValueError(f"first_state must have shape (6,), got {first_state.shape}")
+    if second_state.shape != (6,):
+        raise ValueError(f"second_state must have shape (6,), got {second_state.shape}")
+    if number_of_orbits < 2:
+        raise ValueError("number_of_orbits must be at least 2")
+
+    family_states = [first_state.copy(), second_state.copy()]
+    half_periods = [first_half_period, second_half_period]
+    residual_histories = []
+
+    while len(family_states) < number_of_orbits:
+        next_state, next_half_period, residual_history = continue_halo_orbit(
+            family_states[-2],
+            family_states[-1],
+            mu,
+            step_size,
+            tol=tol,
+            max_iterations=max_iterations,
+            t_max=t_max,
+        )
+        family_states.append(next_state)
+        half_periods.append(next_half_period)
+        residual_histories.append(residual_history)
+
+    return np.asarray(family_states), np.asarray(half_periods), residual_histories
