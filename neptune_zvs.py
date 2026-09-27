@@ -104,6 +104,20 @@ def prepare_grid(axes, cylindrical=False):
 # a cylindrical overview grid follows the nearly circular waist instead of cutting across it
 grids = (prepare_grid(system_axes, cylindrical=True), prepare_grid(local_axes))
 
+# lighter grids provide responsive feedback while the slider is moving
+preview_local_axes = (
+    local_axis(xmin, xmax, 1 - mu, 48, [L1[0], 1 - mu, L2[0]]),
+    local_axis(ymin, ymax, 0, 48, [0]),
+    local_axis(zmin, zmax, 0, 48, [0])
+)
+preview_system_axes = (
+    axis_with_detail(0, 1.5, 44, [L1[0], 1 - mu, 1, L2[0]]),
+    np.linspace(0, 2*np.pi, 65),
+    local_axis(-1, 1, 0, 28, [0])
+)
+preview_grids = (prepare_grid(preview_system_axes, cylindrical=True),
+                 prepare_grid(preview_local_axes))
+
 
 def refine_vertices(vertices, axes, C, cylindrical=False):
     '''solve the true potential along crossed grid edges instead of linear interpolation'''
@@ -264,11 +278,12 @@ app = Dash(__name__)
 server = app.server
 
 
-@lru_cache(maxsize=24)
-def mesh_payload(s):
+@lru_cache(maxsize=48)
+def mesh_payload(s, quality='full'):
     '''cache recent surfaces and send compact compressed binary arrays'''
     C = slider_to_C(s)
-    meshes = [surface_mesh(grid, C) for grid in grids]
+    selected_grids = preview_grids if quality == 'preview' else grids
+    meshes = [surface_mesh(grid, C) for grid in selected_grids]
     # header: c, vertex and face counts for each of the two meshes
     header = struct.pack('<dIIII', C, len(meshes[0][0]), len(meshes[0][3]),
                          len(meshes[1][0]), len(meshes[1][3]))
@@ -285,7 +300,10 @@ def get_mesh():
             raise ValueError
     except (KeyError, ValueError, TypeError):
         return Response('invalid slider position', status=400)
-    payload = mesh_payload(s)
+    quality = request.args.get('q', 'full')
+    if quality not in ('preview', 'full'):
+        return Response('invalid mesh quality', status=400)
+    payload = mesh_payload(s, quality)
     headers = {'Cache-Control': 'no-store', 'Vary': 'Accept-Encoding'}
     if 'gzip' in request.headers.get('Accept-Encoding', ''):
         headers['Content-Encoding'] = 'gzip'
@@ -339,10 +357,19 @@ app.clientside_callback(
     '''
     function(s) {
         const state = window.neptuneZvs || (window.neptuneZvs = {
-            latest: 0, serial: 0, busy: false, cache: new Map()
+            latest: 0, serial: 0, busy: false, cache: new Map(),
+            requested: null, settleTimer: null
         });
         state.latest = s;
         state.serial += 1;
+        const serial = state.serial;
+        state.requested = {serial: serial, value: s, quality: 'preview'};
+        clearTimeout(state.settleTimer);
+        state.settleTimer = setTimeout(function() {
+            if (serial !== state.serial) return;
+            state.requested = {serial: serial, value: state.latest, quality: 'full'};
+            drawLatest();
+        }, 180);
 
         function status(text) {
             dash_clientside.set_props('render-status', {children: text});
@@ -373,21 +400,22 @@ app.clientside_callback(
             if (state.busy) return;
             state.busy = true;
             try {
-                let drawn;
-                do {
-                    const serial = state.serial;
-                    const value = state.latest;
+                while (state.requested) {
+                    const target = state.requested;
+                    state.requested = null;
                     const start = performance.now();
-                    status('updating both views...');
-                    let frame = state.cache.get(value);
+                    status(target.quality === 'preview' ? 'updating preview...' : 'refining both views...');
+                    const cacheKey = target.quality + ':' + target.value;
+                    let frame = state.cache.get(cacheKey);
                     if (!frame) {
-                        const response = await fetch('zvs-mesh?s=' + encodeURIComponent(value));
+                        const response = await fetch('zvs-mesh?s=' + encodeURIComponent(target.value)
+                            + '&q=' + target.quality);
                         if (!response.ok) throw new Error('surface request failed');
                         frame = decode(await response.arrayBuffer());
-                        state.cache.set(value, frame);
-                        if (state.cache.size > 12) state.cache.delete(state.cache.keys().next().value);
+                        state.cache.set(cacheKey, frame);
+                        if (state.cache.size > 18) state.cache.delete(state.cache.keys().next().value);
                     }
-                    if (serial !== state.serial) continue;
+                    if (target.serial !== state.serial) continue;
                     const plot = document.querySelector('#zvc-plot .js-plotly-plot');
                     if (!plot || !window.Plotly) throw new Error('plot is not ready');
                     const update = {};
@@ -405,16 +433,17 @@ app.clientside_callback(
                     dash_clientside.set_props('zvc-plot', {
                         figure: {data: plot.data, layout: plot.layout}
                     });
-                    drawn = serial;
-                    if (drawn === state.serial) {
+                    if (target.serial === state.serial) {
                         dash_clientside.set_props('C-value', {children: 'C = ' + frame.C.toFixed(8)});
-                        status('both views updated in ' + Math.round(performance.now() - start) + ' ms');
+                        const label = target.quality === 'preview' ? 'preview' : 'full quality';
+                        status(label + ' updated in ' + Math.round(performance.now() - start) + ' ms');
                     }
-                } while (drawn !== state.serial);
+                }
             } catch (error) {
                 status('could not update: ' + error.message + '; move the slider to retry');
             } finally {
                 state.busy = false;
+                if (state.requested) drawLatest();
             }
         }
 
