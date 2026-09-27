@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.graph_objects as go
 
-from dash import Dash, dcc, html, Input, Output, Patch
+from dash import Dash, dcc, html, Input, Output, State
 
 import sys
 sys.path.append('src')
@@ -86,10 +86,11 @@ zmin = -0.08
 zmax =  0.08
 
 
-# grid
-x = np.linspace(xmin, xmax, 70)
-y = np.linspace(ymin, ymax, 70)
-z = np.linspace(zmin, zmax, 70)
+# use 50 for interaction; increase to 70 for the original grid resolution
+ngrid = 50
+x = np.linspace(xmin, xmax, ngrid)
+y = np.linspace(ymin, ymax, ngrid)
+z = np.linspace(zmin, zmax, ngrid)
 
 X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
@@ -102,7 +103,6 @@ Z_flat = Z.flatten()
 
 # build the initial figure once
 C = slider_to_C(0)
-F = ZVC_flat - C
 
 fig = go.Figure()
 
@@ -110,10 +110,11 @@ fig.add_trace(go.Isosurface(
     x=X_flat,
     y=Y_flat,
     z=Z_flat,
-    value=F,
+    value=ZVC_flat,
 
-    isomin=-1e-3,
-    isomax=1e-3,
+    # shifting the contour bounds is equivalent to subtracting c from the field
+    isomin=C - 1e-3,
+    isomax=C + 1e-3,
     surface_count=1,
 
     caps=dict(
@@ -290,6 +291,11 @@ server = app.server
 
 app.layout = html.Div([
 
+    dcc.Store(
+        id='slider-settings',
+        data=dict(center=Ccenter, minimum=Cmin, maximum=Cmax, scale=scale)
+    ),
+
     html.H3('sun-neptune zero-velocity surface'),
 
     dcc.Graph(
@@ -321,6 +327,7 @@ app.layout = html.Div([
             max=1,
             step=0.001,
             value=0,
+            updatemode='drag',
 
             marks={
                 -1: f'{Cmin:.5f}',
@@ -337,23 +344,43 @@ app.layout = html.Div([
     })])
 
 
-@app.callback(
+# update in the browser without sending the grid or field back to python
+app.clientside_callback(
+    '''
+    function(s, settings, figure) {
+        if (s === null || s === undefined || !figure) {
+            return [dash_clientside.no_update, dash_clientside.no_update];
+        }
+
+        const f = (10**(settings.scale*Math.abs(s)) - 1)/(10**settings.scale - 1);
+        const C = s < 0
+            ? settings.center - (settings.center - settings.minimum)*f
+            : settings.center + (settings.maximum - settings.center)*f;
+
+        // copy only the containers that change; reuse all large arrays
+        const data = figure.data.slice();
+        data[0] = Object.assign({}, data[0], {
+            isomin: C - 1e-3,
+            isomax: C + 1e-3,
+            name: 'C = ' + C.toFixed(6)
+        });
+        const layout = Object.assign({}, figure.layout, {
+            title: Object.assign({}, figure.layout.title, {
+                text: 'zero-velocity surface near neptune, C = ' + C.toFixed(6)
+            })
+        });
+
+        return [Object.assign({}, figure, {data: data, layout: layout}),
+                'C = ' + C.toFixed(8)];
+    }
+    ''',
     Output('zvc-plot', 'figure'),
     Output('C-value', 'children'),
     Input('C-slider', 'value'),
+    State('slider-settings', 'data'),
+    State('zvc-plot', 'figure'),
     prevent_initial_call=True
 )
-def update_surface(s):
-    # convert slider position to jacobi constant
-    C = slider_to_C(s)
-
-    # update only the surface values and titles, leaving the camera untouched
-    patched_fig = Patch()
-    patched_fig['data'][0]['value'] = ZVC_flat - C
-    patched_fig['data'][0]['name'] = f'C = {C:.6f}'
-    patched_fig['layout']['title']['text'] = f'zero-velocity surface near neptune, C = {C:.6f}'
-
-    return patched_fig, f'C = {C:.8f}'
 
 
 if __name__ == '__main__':
