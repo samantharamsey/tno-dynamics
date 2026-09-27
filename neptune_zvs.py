@@ -106,14 +106,14 @@ grids = (prepare_grid(system_axes, cylindrical=True), prepare_grid(local_axes))
 
 # lighter grids provide responsive feedback while the slider is moving
 preview_local_axes = (
-    local_axis(xmin, xmax, 1 - mu, 26, [L1[0], 1 - mu, L2[0]]),
-    local_axis(ymin, ymax, 0, 26, [0]),
-    local_axis(zmin, zmax, 0, 26, [0])
+    local_axis(xmin, xmax, 1 - mu, 20, [L1[0], 1 - mu, L2[0]]),
+    local_axis(ymin, ymax, 0, 20, [0]),
+    local_axis(zmin, zmax, 0, 20, [0])
 )
 preview_system_axes = (
-    axis_with_detail(0, 1.5, 28, [L1[0], 1 - mu, 1, L2[0]]),
-    np.linspace(0, 2*np.pi, 37),
-    local_axis(-1, 1, 0, 17, [0])
+    axis_with_detail(0, 1.5, 22, [L1[0], 1 - mu, 1, L2[0]]),
+    np.linspace(0, 2*np.pi, 29),
+    local_axis(-1, 1, 0, 13, [0])
 )
 preview_grids = (prepare_grid(preview_system_axes, cylindrical=True),
                  prepare_grid(preview_local_axes))
@@ -407,6 +407,14 @@ app.clientside_callback(
                     status(target.quality === 'preview' ? 'updating preview...' : 'refining both views...');
                     const cacheKey = target.quality + ':' + target.value;
                     let frame = state.cache.get(cacheKey);
+                    if (!frame && target.quality === 'preview' && window.neptuneZvsPreviewPromise) {
+                        const frames = await window.neptuneZvsPreviewPromise;
+                        if (frames && frames.length) {
+                            const index = Math.max(0, Math.min(frames.length - 1,
+                                Math.round((target.value + 1)*(frames.length - 1)/2)));
+                            frame = frames[index];
+                        }
+                    }
                     if (!frame) {
                         const response = await fetch('zvs-mesh?s=' + encodeURIComponent(target.value)
                             + '&q=' + target.quality);
