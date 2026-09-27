@@ -41,6 +41,7 @@ defaults:
       type: pages
     values:
       layout: feature-page
+      feature_image: '/tno-dynamics/assets/images/milky-way-hero.png'
 
 exclude:
   - Gemfile
