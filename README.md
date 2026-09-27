@@ -13,7 +13,7 @@ Research code for studying dynamical-systems methods applied to trans-Neptunian 
 - `docs/index.html` — redirects the GitHub Pages address to the Render app
 - `notebooks/` — research notebooks
 
-Render can continue using `gunicorn neptune_zvs:server`. Regenerate the moving-preview meshes from the repository root with:
+Render uses `gunicorn apps.neptune_zvs.app:server`. Regenerate the moving-preview meshes from the repository root with:
 
 ```powershell
 python -m apps.neptune_zvs.generate_preview_bank
