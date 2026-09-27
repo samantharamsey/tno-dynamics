@@ -238,7 +238,8 @@ def scene_layout(ranges):
     # fixed physical proportions also hold when the local surface disappears
     scene = dict(aspectmode='manual', aspectratio=dict(zip(('x', 'y', 'z'), ratios)),
                  uirevision='keep',
-                 camera=dict(eye=dict(x=1.4, y=-1.7, z=1.0)))
+                 camera=dict(eye=dict(x=0, y=-2.2, z=0),
+                             up=dict(x=0, y=0, z=1)))
     for name, limits in zip(('x', 'y', 'z'), ranges):
         scene[name + 'axis'] = dict(
             title=name, range=limits, color='rgb(160, 160, 160)',
@@ -304,12 +305,12 @@ app.layout = html.Div([
                  style={'textAlign': 'center', 'marginBottom': '5px'}),
         dcc.Slider(
             id='C-slider', min=-1, max=1, step=0.001, value=0, updatemode='drag',
-            marks={-1: f'{Cmin:.5f}', C_to_slider(C2): 'C2', 0: 'center',
+            marks={-1: f'{Cmin:.5f}', C_to_slider(C2): 'C2',
                    C_to_slider(C1): 'C1', 1: f'{Cmax:.5f}'}
         ),
         html.Div(id='render-status', children='both views ready',
                  style={'textAlign': 'center', 'fontSize': '12px', 'marginTop': '8px'}),
-        html.Div('rotate and zoom each view independently; primary sizes are exaggerated for visibility',
+        html.Div('logarithmic jacobi scale; rotate and zoom each view independently; primary sizes are exaggerated for visibility',
                  style={'textAlign': 'center', 'fontSize': '12px', 'marginTop': '6px'})
     ], style={'padding': '0 40px 20px 40px'})
 ])
