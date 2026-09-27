@@ -21,23 +21,23 @@ Unlike a finished dissertation, this version is intended to evolve. Sections can
 
 The circular restricted three-body problem provides a controlled model for motion under the gravitational influence of two massive bodies. For the Sun–Neptune system, the primary masses move in circular orbits about their barycenter while a third body has negligible mass and does not affect their motion.
 
-Let the nondimensional masses of the primaries be \(1-\mu\) and \(\mu\), with the barycenter at the origin. In the rotating frame, the primaries remain fixed at
+Let the nondimensional masses of the primaries be <span class="math-inline">\(1-\mu\)</span> and <span class="math-inline">\(\mu\)</span>, with the barycenter at the origin. In the rotating frame, the primaries remain fixed at
 
-\[
+<div class="equation-block">\[
 \mathbf{r}_1 = (-\mu,0,0),
 \qquad
 \mathbf{r}_2 = (1-\mu,0,0).
 \tag{2.1}
-\]
+\]</div>
 
-The distances from the third body at \((x,y,z)\) to the primaries are
+The distances from the third body at <span class="math-inline">\((x,y,z)\)</span> to the primaries are
 
-\[
+<div class="equation-block">\[
 r_1 = \sqrt{(x+\mu)^2+y^2+z^2},
 \qquad
 r_2 = \sqrt{(x-1+\mu)^2+y^2+z^2}.
 \tag{2.2}
-\]
+\]</div>
 
 ## 3. Mathematical framework {#mathematical-framework}
 
@@ -49,7 +49,7 @@ A uniformly rotating coordinate system makes the two primaries stationary and ex
 
 Define the pseudo-potential
 
-\[
+<div class="equation-block">\[
 \Omega(x,y,z)
 =
 \frac{1}{2}(x^2+y^2)
@@ -58,18 +58,18 @@ Define the pseudo-potential
 +
 \frac{\mu}{r_2}.
 \tag{3.1}
-\]
+\]</div>
 
 The rotating-frame equations of motion can then be written compactly as
 
-\[
+<div class="equation-block">\[
 \ddot{x}-2\dot{y}=\frac{\partial\Omega}{\partial x},
 \qquad
 \ddot{y}+2\dot{x}=\frac{\partial\Omega}{\partial y},
 \qquad
 \ddot{z}=\frac{\partial\Omega}{\partial z}.
 \tag{3.2}
-\]
+\]</div>
 
 This form will provide the starting point for the detailed derivation, equilibrium-point analysis, variational equations, and numerical propagation methods documented in later revisions.
 
@@ -77,18 +77,18 @@ This form will provide the starting point for the detailed derivation, equilibri
 
 The system admits the Jacobi integral
 
-\[
+<div class="equation-block">\[
 C = 2\Omega(x,y,z)
 -\left(\dot{x}^{2}+\dot{y}^{2}+\dot{z}^{2}\right).
 \tag{3.3}
-\]
+\]</div>
 
 At zero velocity, the boundary
 
-\[
+<div class="equation-block">\[
 2\Omega(x,y,z)=C
 \tag{3.4}
-\]
+\]</div>
 
 defines the zero-velocity surface. These surfaces divide configuration space into accessible and forbidden regions and are the subject of the interactive Sun–Neptune visualization.
 

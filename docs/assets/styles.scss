@@ -278,6 +278,11 @@ body {
   border-left-color: var(--line);
 }
 
+.equation-block {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .dissertation-main mjx-container[display='true'] {
   margin: 1.7rem 0 !important;
   overflow-x: auto;
