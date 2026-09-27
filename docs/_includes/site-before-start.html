@@ -1,0 +1,14 @@
+{% if page.math %}
+<script>
+  window.MathJax = {
+    tex: {
+      tags: 'ams'
+    },
+    chtml: {
+      displayAlign: 'center',
+      displayIndent: '0'
+    }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"></script>
+{% endif %}

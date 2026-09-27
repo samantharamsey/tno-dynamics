@@ -1,0 +1,38 @@
+---
+layout: default
+---
+
+{% include site-header.html %}
+
+<div class="dissertation-shell  container">
+  <aside class="dissertation-sidebar" aria-label="Dissertation outline">
+    <nav class="dissertation-outline">
+      <p class="outline-label">Living dissertation</p>
+      <p class="outline-title">Research outline</p>
+      <ol>
+        <li><a href="#research-overview">Research overview</a></li>
+        <li><a href="#system-model">System model</a></li>
+        <li>
+          <a href="#mathematical-framework">Mathematical framework</a>
+          <ol>
+            <li><a href="#rotating-frame">Rotating frame</a></li>
+            <li><a href="#equations-of-motion">Equations of motion</a></li>
+            <li><a href="#jacobi-integral">Jacobi integral</a></li>
+          </ol>
+        </li>
+        <li><a href="#computational-approach">Computational approach</a></li>
+        <li><a href="#research-log">Research log</a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="dissertation-main  typeset">
+    <div class="dissertation-status">
+      <span>Working document</span>
+      <span>Updated as the research develops</span>
+    </div>
+    {{ content }}
+  </main>
+</div>
+
+{% include site-footer.html %}
