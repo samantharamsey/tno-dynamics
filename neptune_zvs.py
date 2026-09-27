@@ -436,11 +436,15 @@ app.clientside_callback(
                     for (const [scene, camera] of Object.entries(window.neptuneZvsCameras || {})) {
                         layout[scene + '.camera'] = camera;
                     }
-                    await Plotly.update(plot, update, layout, [0, 1]);
-                    // keep dash's figure in sync so a camera event cannot restore old data
-                    dash_clientside.set_props('zvc-plot', {
-                        figure: {data: plot.data, layout: plot.layout}
-                    });
+                    if (target.quality === 'preview') {
+                        await Plotly.restyle(plot, update, [0, 1]);
+                    } else {
+                        await Plotly.update(plot, update, layout, [0, 1]);
+                        // sync after the settled update so later camera events retain the final mesh
+                        dash_clientside.set_props('zvc-plot', {
+                            figure: {data: plot.data, layout: plot.layout}
+                        });
+                    }
                     if (target.serial === state.serial) {
                         dash_clientside.set_props('C-value', {children: 'C = ' + frame.C.toFixed(8)});
                         const label = target.quality === 'preview' ? 'preview' : 'full quality';
