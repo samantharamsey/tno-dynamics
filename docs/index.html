@@ -3,47 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=https://tno-dynamics.onrender.com/">
   <title>Sun–Neptune zero-velocity surfaces</title>
-  <style>
-    :root { color-scheme: dark; font-family: Arial, sans-serif; }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: #050505; color: #eee; }
-    h1 { margin: 14px 18px 6px; font-size: 20px; font-weight: 500; }
-    #views { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; height: calc(100vh - 150px); min-height: 420px; }
-    .view { position: relative; min-width: 0; background: #000; overflow: hidden; }
-    .view h2 { position: absolute; z-index: 2; top: 12px; width: 100%; margin: 0; text-align: center; font-size: 16px; font-weight: 400; pointer-events: none; }
-    canvas { display: block; width: 100%; height: 100%; }
-    #controls { padding: 10px 34px 18px; background: #fff; color: #111; }
-    #readout { text-align: center; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
-    input[type="range"] { width: 100%; accent-color: #8247d6; }
-    #marks { display: flex; justify-content: space-between; color: #555; font-size: 11px; }
-    #note { margin-top: 8px; text-align: center; color: #666; font-size: 12px; }
-    @media (max-width: 850px) {
-      #views { grid-template-columns: 1fr; height: auto; }
-      .view { height: 46vh; min-height: 330px; }
-    }
-  </style>
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
-      }
-    }
+  <script>
+    window.location.replace('https://tno-dynamics.onrender.com/');
   </script>
 </head>
 <body>
-  <h1>sun-neptune zero-velocity surfaces</h1>
-  <main id="views">
-    <section class="view" id="system-view"><h2>sun-neptune system</h2></section>
-    <section class="view" id="neptune-view"><h2>neptune close-up</h2></section>
-  </main>
-  <section id="controls">
-    <div id="readout">C = 3.00000000</div>
-    <input id="c-slider" type="range" min="-1" max="1" step="0.001" value="0" aria-label="jacobi constant">
-    <div id="marks"><span>2.99000</span><span>C2</span><span></span><span>C1</span><span>3.02000</span></div>
-    <div id="note">logarithmic jacobi scale; drag for immediate GPU updates; rotate and zoom each view independently</div>
-  </section>
-  <script type="module" src="./app.js"></script>
+  <p>Opening the <a href="https://tno-dynamics.onrender.com/">Plotly zero-velocity surface explorer</a>…</p>
 </body>
 </html>
