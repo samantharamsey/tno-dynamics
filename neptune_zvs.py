@@ -1,11 +1,17 @@
+import gzip
+import struct
+import sys
+from functools import lru_cache
+from pathlib import Path
+
 import numpy as np
 import plotly.graph_objects as go
+from dash import Dash, dcc, html, Input, Output
+from flask import Response, request
+from plotly.subplots import make_subplots
+from skimage.measure import marching_cubes
 
-from dash import Dash, dcc, html, Input, Output, State
-
-import sys
-sys.path.append('src')
-
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'src'))
 from cr3bp import lagrange_points, jacobi_constant, zero_velocity
 
 
@@ -13,373 +19,407 @@ from cr3bp import lagrange_points, jacobi_constant, zero_velocity
 m_sun = 1.9890e30
 m_neptune = 1.0241e26
 mu = m_neptune / (m_sun + m_neptune)
-
-# neptune radius
-a_neptune = 4.49833729e9      # km
-R_neptune = 24622.0           # km
-
-# normalize neptune radius to the distance between sun and neptune
+a_neptune = 4.49833729e9
+R_neptune = 24622.0
 R_neptune_nd = R_neptune / a_neptune
-
-# use the true radius if you want strict physical scale
-# use a larger display radius if you want it to actually be visible
 R_neptune_plot = 0.002
-#R_neptune_plot = R_neptune_nd
 
-def sphere(center, radius, nu=60, nv=30):
-    '''generate a sphere mesh'''
-    u = np.linspace(0, 2*np.pi, nu)
-    v = np.linspace(0, np.pi, nv)
-    U, V = np.meshgrid(u, v)
-    x = center[0] + radius*np.cos(U)*np.sin(V)
-    y = center[1] + radius*np.sin(U)*np.sin(V)
-    z = center[2] + radius*np.cos(V)
-    return x, y, z, U, V
-
-
-# lagrange points
 L1, L2, L3, L4, L5 = lagrange_points(mu)
-# jacobi constants at l1 and l2
 C1 = jacobi_constant([L1[0], L1[1], 0, 0, 0, 0], mu)
 C2 = jacobi_constant([L2[0], L2[1], 0, 0, 0, 0], mu)
-
-# jacobi constant slider range
 Ccenter = (C1 + C2)/2
-
-# jacobi constant range for slider
 Cmin = 2.99
 Cmax = 3.02
 scale = 3
 
+
 def slider_to_C(s):
     '''convert slider position to jacobi constant'''
+    f = (10**(scale*abs(s)) - 1)/(10**scale - 1)
     if s < 0:
-        f = (10**(-scale*s) - 1)/(10**scale - 1)
-        C = Ccenter - (Ccenter - Cmin)*f
-    else:
-        f = (10**(scale*s) - 1)/(10**scale - 1)
-        C = Ccenter + (Cmax - Ccenter)*f
-    return C
+        return Ccenter - (Ccenter - Cmin)*f
+    return Ccenter + (Cmax - Ccenter)*f
+
 
 def C_to_slider(C):
     '''convert jacobi constant to slider position'''
     if C < Ccenter:
         f = (Ccenter - C)/(Ccenter - Cmin)
-        s = -np.log10(1 + f*(10**scale - 1))/scale
-    else:
-        f = (C - Ccenter)/(Cmax - Ccenter)
-        s = np.log10(1 + f*(10**scale - 1))/scale
-    return s
-
-C1_slider = C_to_slider(C1)
-C2_slider = C_to_slider(C2)
+        return -np.log10(1 + f*(10**scale - 1))/scale
+    f = (C - Ccenter)/(Cmax - Ccenter)
+    return np.log10(1 + f*(10**scale - 1))/scale
 
 
-# region around neptune and l1/l2
-xmin = L1[0] - 0.03
-xmax = L2[0] + 0.03
-
-ymin = -0.08
-ymax =  0.08
-
-zmin = -0.08
-zmax =  0.08
+# use separate grids, with extra samples near neptune in the overview
+xmin, xmax = L1[0] - 0.03, L2[0] + 0.03
+ymin, ymax = -0.08, 0.08
+zmin, zmax = -0.08, 0.08
+ngrid = 96
 
 
-# use 50 for interaction; increase to 70 for the original grid resolution
-ngrid = 50
-x = np.linspace(xmin, xmax, ngrid)
-y = np.linspace(ymin, ymax, ngrid)
-z = np.linspace(zmin, zmax, ngrid)
-
-X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
+def axis_with_detail(low, high, count, extra):
+    '''combine uniform samples with additional local detail'''
+    return np.unique(np.concatenate((np.linspace(low, high, count), extra)))
 
 
-# precompute twice the potential and flatten the constant grid once
-ZVC_flat = zero_velocity(X, Y, Z, 0, mu).flatten()
-X_flat = X.flatten()
-Y_flat = Y.flatten()
-Z_flat = Z.flatten()
+def local_axis(low, high, center, count, extra):
+    '''put more samples near neptune without increasing the overall grid size'''
+    t = np.linspace(-1, 1, count)
+    offsets = np.sinh(2*t)/np.sinh(2)
+    values = center + np.where(t < 0, center - low, high - center)*offsets
+    return np.unique(np.r_[values, extra])
 
-# build the initial figure once
-C = slider_to_C(0)
 
-fig = go.Figure()
+local_axes = (
+    local_axis(xmin, xmax, 1 - mu, ngrid, [L1[0], 1 - mu, L2[0]]),
+    local_axis(ymin, ymax, 0, ngrid, [0]),
+    local_axis(zmin, zmax, 0, ngrid, [0])
+)
+system_axes = (
+    axis_with_detail(0, 1.5, 72, [L1[0], 1 - mu, 1, L2[0]]),
+    np.linspace(0, 2*np.pi, 129),
+    local_axis(-1, 1, 0, 48, [0])
+)
 
-fig.add_trace(go.Isosurface(
-    x=X_flat,
-    y=Y_flat,
-    z=Z_flat,
-    value=ZVC_flat,
 
-    # shifting the contour bounds is equivalent to subtracting c from the field
-    isomin=C - 1e-3,
-    isomax=C + 1e-3,
-    surface_count=1,
+def physical_points(points, cylindrical=False):
+    '''convert overview radius-angle-height coordinates to rotating cartesian coordinates'''
+    if not cylindrical:
+        return points
+    r, theta, z = points
+    theta = np.where(theta == 2*np.pi, 0, theta)
+    return r*np.cos(theta), r*np.sin(theta), z
 
-    caps=dict(
-        x_show=False,
-        y_show=False,
-        z_show=False
-    ),
 
-    showscale=False,
-    opacity=0.35,
+def prepare_grid(axes, cylindrical=False):
+    '''precompute the potential once, keeping precision near the critical values'''
+    X, Y, Z = physical_points(np.meshgrid(*axes, indexing='ij', sparse=True), cylindrical)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        field = zero_velocity(X, Y, Z, Ccenter, mu)
+    # primary singularities lie inside the allowed region throughout the slider range
+    field = np.nan_to_num(field, nan=1e6, posinf=1e6, neginf=-1e6)
+    return axes, np.asarray(field, dtype=np.float32), cylindrical
 
-    colorscale=[
-        [0.0, '#f3e8ff'],
-        [0.5, '#d8b4fe'],
-        [1.0, '#c084fc']
-    ],
 
-    name=f'C = {C:.6f}'
-))
+# a cylindrical overview grid follows the nearly circular waist instead of cutting across it
+grids = (prepare_grid(system_axes, cylindrical=True), prepare_grid(local_axes))
 
-# neptune
-xN, yN, zN, UN, VN = sphere([1 - mu, 0, 0], R_neptune_plot)
 
-# simple banded surface coloring to make neptune look nicer
-surfacecolor = 0.55 + 0.25*np.sin(8*VN) + 0.08*np.cos(2*UN)
+def refine_vertices(vertices, axes, C, cylindrical=False):
+    '''solve the true potential along crossed grid edges instead of linear interpolation'''
+    points = np.array([np.interp(vertices[:, j], np.arange(len(axis)), axis)
+                       for j, axis in enumerate(axes)])
+    fractions = np.abs(vertices - np.rint(vertices))
+    direction = fractions.argmax(axis=1)
+    # rare interior vertices in ambiguous cells retain the marching-cubes position
+    on_edge = (fractions > 1e-5).sum(axis=1) <= 1
+    lower, upper = points.copy(), points.copy()
+    for j, axis in enumerate(axes):
+        mask = direction == j
+        lower[j, mask] = axis[np.floor(vertices[mask, j]).astype(int)]
+        upper[j, mask] = axis[np.ceil(vertices[mask, j]).astype(int)]
+    with np.errstate(divide='ignore', invalid='ignore'):
+        f_lower = zero_velocity(*physical_points(lower, cylindrical), C, mu)
+        f_upper = zero_velocity(*physical_points(upper, cylindrical), C, mu)
+    valid = on_edge & (np.signbit(f_lower) != np.signbit(f_upper))
+    selected = np.flatnonzero(valid)
+    if selected.size:
+        lo, hi, flo = lower[:, selected], upper[:, selected], f_lower[selected]
+        for _ in range(12):
+            mid = (lo + hi)/2
+            fmid = zero_velocity(*physical_points(mid, cylindrical), C, mu)
+            same_side = np.signbit(fmid) == np.signbit(flo)
+            lo[:, same_side] = mid[:, same_side]
+            flo[same_side] = fmid[same_side]
+            hi[:, ~same_side] = mid[:, ~same_side]
+        # a final interpolation inside the tiny bracket improves precision cheaply
+        fhi = zero_velocity(*physical_points(hi, cylindrical), C, mu)
+        weight = np.clip(flo/(flo - fhi), 0, 1)
+        points[:, selected] = lo + (hi - lo)*weight
+    return [np.ascontiguousarray(p, dtype='<f4') for p in physical_points(points, cylindrical)]
 
-fig.add_trace(go.Surface(
-    x=xN,
-    y=yN,
-    z=zN,
-    surfacecolor=surfacecolor,
 
-    colorscale=[
-        [0.0, '#123b7a'],
-        [0.25, '#2456c3'],
-        [0.5, '#4f8cff'],
-        [0.75, '#88d3ff'],
-        [1.0, '#d6f4ff']
-    ],
+def surface_mesh(grid, C):
+    '''extract 2u = c without smoothing away physical necks or changing the level'''
+    axes, field, cylindrical = grid
+    level = C - Ccenter
+    if not field.min() < level < field.max():
+        return [np.empty(0, dtype='<f4') for _ in range(3)] + [
+            np.empty(0, dtype='<u4') for _ in range(3)]
+    vertices, faces, _, _ = marching_cubes(field, level=level, allow_degenerate=False)
+    # retain connectivity but correct the edge intersections against the actual potential
+    xyz = refine_vertices(vertices, axes, C, cylindrical)
+    if cylindrical:
+        # weld the periodic seam and polar axis so smooth normals have no artificial crease
+        points, inverse = np.unique(np.array(xyz).T, axis=0, return_inverse=True)
+        faces = inverse[faces]
+        faces = faces[(faces[:, 0] != faces[:, 1]) & (faces[:, 1] != faces[:, 2])
+                      & (faces[:, 0] != faces[:, 2])]
+        xyz = [np.ascontiguousarray(points[:, j], dtype='<f4') for j in range(3)]
+    ijk = [np.ascontiguousarray(faces[:, j], dtype='<u4') for j in range(3)]
+    return xyz + ijk
 
-    showscale=False,
-    name='neptune',
-    hoverinfo='skip',
 
-    lighting=dict(
-        ambient=0.55,
-        diffuse=0.8,
-        specular=0.35,
-        roughness=0.6,
-        fresnel=0.1
-    ),
-
-    lightposition=dict(
-        x=2,
-        y=1,
-        z=1
+def mesh_trace(mesh):
+    '''display an already triangulated surface with smooth lighting'''
+    return go.Mesh3d(
+        **dict(zip(('x', 'y', 'z', 'i', 'j', 'k'), mesh)),
+        color='#d8b4fe', opacity=0.35, flatshading=False,
+        lighting=dict(ambient=0.72, diffuse=0.65, specular=0.08, roughness=0.9),
+        lightposition=dict(x=2, y=1, z=3),
+        name='zero-velocity surface', showlegend=False, hoverinfo='skip'
     )
-))
 
-fig.add_trace(go.Scatter3d(
-    x=[1 - mu],
-    y=[0],
-    z=[0],
-    mode='text',
-    text=['neptune'],
-    textposition='top center',
-    textfont=dict(
-        color='white',
-        size=12
-    ),
-    showlegend=False
-))
 
-# l1 and l2 markers
-fig.add_trace(go.Scatter3d(
-    x=[L1[0], L2[0]],
-    y=[0, 0],
-    z=[0, 0],
-    mode='markers',
-    marker=dict(
-        size=3,
-        color='gold',
-        symbol='diamond'
-    ),
-    name='lagrange points'
-))
+def sphere(center, radius, nu=60, nv=30):
+    '''generate a sphere mesh'''
+    U, V = np.meshgrid(np.linspace(0, 2*np.pi, nu), np.linspace(0, np.pi, nv))
+    return (center[0] + radius*np.cos(U)*np.sin(V),
+            center[1] + radius*np.sin(U)*np.sin(V),
+            center[2] + radius*np.cos(V), U, V)
 
-# l1 and l2 labels
+
+fig = make_subplots(
+    rows=1, cols=2, specs=[[{'type': 'scene'}, {'type': 'scene'}]],
+    horizontal_spacing=0.035,
+    subplot_titles=('sun-neptune system', 'neptune close-up')
+)
+
+# keep both changing traces first; all other traces remain static
+for col, grid in enumerate(grids, start=1):
+    fig.add_trace(mesh_trace(surface_mesh(grid, Ccenter)), row=1, col=col)
+
+# overview markers use display sizes so both primaries remain visible
 fig.add_trace(go.Scatter3d(
-    x=[L1[0], L2[0]],
-    y=[0, 0],
-    z=[0, 0],
-    mode='text',
-    text=['L1', 'L2'],
-    textposition='top center',
-    textfont=dict(
-        color='white',
-        size=12
-    ),
-    showlegend=False
-))
+    x=[-mu, 1 - mu], y=[0, 0], z=[0, 0], mode='markers+text',
+    text=['sun', 'neptune'], textposition='top center',
+    marker=dict(size=[9, 5], color=['#ffd166', '#4f8cff']),
+    textfont=dict(color='white', size=12), showlegend=False,
+    hovertemplate='%{text}<br>x = %{x:.6f}<extra></extra>'
+), row=1, col=1)
+
+# a guide to neptune's orbital radius in the rotating coordinate system
+theta = np.linspace(0, 2*np.pi, 240)
+fig.add_trace(go.Scatter3d(
+    x=(1 - mu)*np.cos(theta), y=(1 - mu)*np.sin(theta), z=np.zeros_like(theta),
+    mode='lines', line=dict(color='rgba(160,160,160,0.4)', width=2, dash='dot'),
+    showlegend=False, hoverinfo='skip'
+), row=1, col=1)
+
+# neptune in the detailed view
+xN, yN, zN, UN, VN = sphere([1 - mu, 0, 0], R_neptune_plot)
+fig.add_trace(go.Surface(
+    x=xN, y=yN, z=zN,
+    surfacecolor=0.55 + 0.25*np.sin(8*VN) + 0.08*np.cos(2*UN),
+    colorscale=[[0, '#123b7a'], [0.25, '#2456c3'], [0.5, '#4f8cff'],
+                [0.75, '#88d3ff'], [1, '#d6f4ff']],
+    showscale=False, name='neptune', hoverinfo='skip',
+    lighting=dict(ambient=0.55, diffuse=0.8, specular=0.35, roughness=0.6, fresnel=0.1),
+    lightposition=dict(x=2, y=1, z=1)
+), row=1, col=2)
+fig.add_trace(go.Scatter3d(
+    x=[1 - mu], y=[0], z=[0], mode='text', text=['neptune'],
+    textposition='top center', textfont=dict(color='white', size=12), showlegend=False
+), row=1, col=2)
+fig.add_trace(go.Scatter3d(
+    x=[L1[0], L2[0]], y=[0, 0], z=[0, 0], mode='markers+text',
+    text=['L1', 'L2'], textposition='top center', textfont=dict(color='white', size=12),
+    marker=dict(size=3, color='gold', symbol='diamond'),
+    name='lagrange points', showlegend=False
+), row=1, col=2)
+
+
+def scene_layout(ranges):
+    '''keep fixed axis ranges and independent camera controls'''
+    spans = np.array([high - low for low, high in ranges])
+    ratios = spans / spans.max()
+    # fixed physical proportions also hold when the local surface disappears
+    scene = dict(aspectmode='manual', aspectratio=dict(zip(('x', 'y', 'z'), ratios)),
+                 uirevision='keep',
+                 camera=dict(eye=dict(x=1.4, y=-1.7, z=1.0)))
+    for name, limits in zip(('x', 'y', 'z'), ranges):
+        scene[name + 'axis'] = dict(
+            title=name, range=limits, color='rgb(160, 160, 160)',
+            backgroundcolor='black', gridcolor='rgb(30, 30, 30)',
+            zerolinecolor='rgb(35, 35, 35)', linecolor='rgb(35, 35, 35)',
+            showbackground=False, showgrid=False, showline=False,
+            zeroline=False, showspikes=False, ticks=''
+        )
+    return scene
+
 
 fig.update_layout(
-    title=f'zero-velocity surface near neptune, C = {C:.6f}',
-
-    paper_bgcolor='black',
-    plot_bgcolor='black',
-    font=dict(color='white'),
-
-    legend=dict(
-        bgcolor='rgba(0,0,0,0)',
-        font=dict(color='white')
-    ),
-
+    title=dict(text=f'sun-neptune zero-velocity surfaces, C = {Ccenter:.8f}', x=0.5),
+    paper_bgcolor='black', plot_bgcolor='black', font=dict(color='white'),
     uirevision='keep',
-    scene_uirevision='keep',
-
-    scene=dict(
-        xaxis=dict(
-            title='x',
-            range=[xmin, xmax],
-            color='white',
-            backgroundcolor='black',
-            gridcolor='rgb(40, 40, 40)',
-            zerolinecolor='rgb(70, 70, 70)',
-            linecolor='rgb(60, 60, 60)',
-            showbackground=True,
-            showgrid=False,
-            zeroline=True
-        ),
-
-        yaxis=dict(
-            title='y',
-            range=[ymin, ymax],
-            color='white',
-            backgroundcolor='black',
-            gridcolor='rgb(40, 40, 40)',
-            zerolinecolor='rgb(70, 70, 70)',
-            linecolor='rgb(60, 60, 60)',
-            showbackground=True,
-            showgrid=False,
-            zeroline=True
-        ),
-
-        zaxis=dict(
-            title='z',
-            range=[zmin, zmax],
-            color='white',
-            backgroundcolor='black',
-            gridcolor='rgb(40, 40, 40)',
-            zerolinecolor='rgb(70, 70, 70)',
-            linecolor='rgb(60, 60, 60)',
-            showbackground=True,
-            showgrid=False,
-            zeroline=True
-        ),
-
-        aspectmode='data'
-    ),
-
-    margin=dict(
-        l=0,
-        r=0,
-        t=50,
-        b=0
-    ),
-
-    autosize=True
+    scene=scene_layout([[-1.5, 1.5], [-1.5, 1.5], [-1, 1]]),
+    scene2=scene_layout([[xmin, xmax], [ymin, ymax], [zmin, zmax]]),
+    margin=dict(l=0, r=0, t=70, b=0), autosize=True
 )
 
 app = Dash(__name__)
 server = app.server
 
 
+@lru_cache(maxsize=24)
+def mesh_payload(s):
+    '''cache recent surfaces and send compact compressed binary arrays'''
+    C = slider_to_C(s)
+    meshes = [surface_mesh(grid, C) for grid in grids]
+    # header: c, vertex and face counts for each of the two meshes
+    header = struct.pack('<dIIII', C, len(meshes[0][0]), len(meshes[0][3]),
+                         len(meshes[1][0]), len(meshes[1][3]))
+    body = header + b''.join(a.tobytes() for mesh in meshes for a in mesh)
+    return gzip.compress(body, compresslevel=1)
+
+
+@server.route('/zvs-mesh')
+def get_mesh():
+    '''return both surfaces at precisely the requested slider position'''
+    try:
+        s = float(request.args['s'])
+        if not np.isfinite(s) or not -1 <= s <= 1:
+            raise ValueError
+    except (KeyError, ValueError, TypeError):
+        return Response('invalid slider position', status=400)
+    payload = mesh_payload(s)
+    headers = {'Cache-Control': 'no-store', 'Vary': 'Accept-Encoding'}
+    if 'gzip' in request.headers.get('Accept-Encoding', ''):
+        headers['Content-Encoding'] = 'gzip'
+    else:
+        payload = gzip.decompress(payload)
+    return Response(payload, mimetype='application/octet-stream', headers=headers)
+
+
 app.layout = html.Div([
-
-    dcc.Store(
-        id='slider-settings',
-        data=dict(center=Ccenter, minimum=Cmin, maximum=Cmax, scale=scale)
-    ),
-
-    html.H3('sun-neptune zero-velocity surface'),
-
-    dcc.Graph(
-        id='zvc-plot',
-        figure=fig,
-        style={
-            'height': '85vh',
-            'width': '100%'},
-        config={
-            'responsive': True
-        }),
-
+    dcc.Store(id='camera-state', data={}),
+    html.H3('sun-neptune zero-velocity surfaces'),
+    dcc.Graph(id='zvc-plot', figure=fig, style={'height': '80vh', 'width': '100%'},
+              config={'responsive': True, 'displaylogo': False}),
     html.Div([
-
         html.Label('jacobi constant'),
-
-        html.Div(
-            id='C-value',
-            children=f'C = {C:.8f}',
-            style={
-                'textAlign': 'center',
-                'marginBottom': '5px'
-            }
-        ),
-
+        html.Div(id='C-value', children=f'C = {Ccenter:.8f}',
+                 style={'textAlign': 'center', 'marginBottom': '5px'}),
         dcc.Slider(
-            id='C-slider',
-            min=-1,
-            max=1,
-            step=0.001,
-            value=0,
-            updatemode='drag',
-
-            marks={
-                -1: f'{Cmin:.5f}',
-                C2_slider: 'C2',
-                0: 'center',
-                C1_slider: 'C1',
-                1: f'{Cmax:.5f}'
-            }
-        )
-
-    ],
-    style={
-        'padding': '0 40px 20px 40px'
-    })])
+            id='C-slider', min=-1, max=1, step=0.001, value=0, updatemode='drag',
+            marks={-1: f'{Cmin:.5f}', C_to_slider(C2): 'C2', 0: 'center',
+                   C_to_slider(C1): 'C1', 1: f'{Cmax:.5f}'}
+        ),
+        html.Div(id='render-status', children='both views ready',
+                 style={'textAlign': 'center', 'fontSize': '12px', 'marginTop': '8px'}),
+        html.Div('rotate and zoom each view independently; primary sizes are exaggerated for visibility',
+                 style={'textAlign': 'center', 'fontSize': '12px', 'marginTop': '6px'})
+    ], style={'padding': '0 40px 20px 40px'})
+])
 
 
-# update in the browser without sending the grid or field back to python
+# remember the actual user-selected cameras, including moves made before the first update
 app.clientside_callback(
     '''
-    function(s, settings, figure) {
-        if (s === null || s === undefined || !figure) {
-            return [dash_clientside.no_update, dash_clientside.no_update];
+    function(event) {
+        if (!event) return dash_clientside.no_update;
+        const cameras = window.neptuneZvsCameras || (window.neptuneZvsCameras = {});
+        for (const scene of ['scene', 'scene2']) {
+            if (event[scene + '.camera']) cameras[scene] = event[scene + '.camera'];
         }
-
-        const f = (10**(settings.scale*Math.abs(s)) - 1)/(10**settings.scale - 1);
-        const C = s < 0
-            ? settings.center - (settings.center - settings.minimum)*f
-            : settings.center + (settings.maximum - settings.center)*f;
-
-        // copy only the containers that change; reuse all large arrays
-        const data = figure.data.slice();
-        data[0] = Object.assign({}, data[0], {
-            isomin: C - 1e-3,
-            isomax: C + 1e-3,
-            name: 'C = ' + C.toFixed(6)
-        });
-        const layout = Object.assign({}, figure.layout, {
-            title: Object.assign({}, figure.layout.title, {
-                text: 'zero-velocity surface near neptune, C = ' + C.toFixed(6)
-            })
-        });
-
-        return [Object.assign({}, figure, {data: data, layout: layout}),
-                'C = ' + C.toFixed(8)];
+        return Object.assign({}, cameras);
     }
     ''',
-    Output('zvc-plot', 'figure'),
-    Output('C-value', 'children'),
-    Input('C-slider', 'value'),
-    State('slider-settings', 'data'),
-    State('zvc-plot', 'figure'),
+    Output('camera-state', 'data'), Input('zvc-plot', 'relayoutData'),
     prevent_initial_call=True
+)
+
+
+# update the existing plot directly so dash never replaces its camera state
+# only one request/render runs at a time; newer slider positions replace pending work
+app.clientside_callback(
+    '''
+    function(s) {
+        const state = window.neptuneZvs || (window.neptuneZvs = {
+            latest: 0, serial: 0, busy: false, cache: new Map()
+        });
+        state.latest = s;
+        state.serial += 1;
+
+        function status(text) {
+            dash_clientside.set_props('render-status', {children: text});
+        }
+
+        function decode(buffer) {
+            const header = new DataView(buffer);
+            const C = header.getFloat64(0, true);
+            const meshes = [];
+            let offset = 24;
+            for (let m = 0; m < 2; m++) {
+                const nv = header.getUint32(8 + m*8, true);
+                const nf = header.getUint32(12 + m*8, true);
+                const mesh = {};
+                for (const key of ['x', 'y', 'z', 'i', 'j', 'k']) {
+                    const position = ['x', 'y', 'z'].includes(key);
+                    const count = position ? nv : nf;
+                    mesh[key] = position ? new Float32Array(buffer, offset, count)
+                                         : new Uint32Array(buffer, offset, count);
+                    offset += count*4;
+                }
+                meshes.push(mesh);
+            }
+            return {C: C, meshes: meshes};
+        }
+
+        async function drawLatest() {
+            if (state.busy) return;
+            state.busy = true;
+            try {
+                let drawn;
+                do {
+                    const serial = state.serial;
+                    const value = state.latest;
+                    const start = performance.now();
+                    status('updating both views...');
+                    let frame = state.cache.get(value);
+                    if (!frame) {
+                        const response = await fetch('zvs-mesh?s=' + encodeURIComponent(value));
+                        if (!response.ok) throw new Error('surface request failed');
+                        frame = decode(await response.arrayBuffer());
+                        state.cache.set(value, frame);
+                        if (state.cache.size > 12) state.cache.delete(state.cache.keys().next().value);
+                    }
+                    if (serial !== state.serial) continue;
+                    const plot = document.querySelector('#zvc-plot .js-plotly-plot');
+                    if (!plot || !window.Plotly) throw new Error('plot is not ready');
+                    const update = {};
+                    for (const key of ['x', 'y', 'z', 'i', 'j', 'k']) {
+                        update[key] = frame.meshes.map(mesh => mesh[key]);
+                    }
+                    const layout = {
+                        'title.text': 'sun-neptune zero-velocity surfaces, C = ' + frame.C.toFixed(8)
+                    };
+                    for (const [scene, camera] of Object.entries(window.neptuneZvsCameras || {})) {
+                        layout[scene + '.camera'] = camera;
+                    }
+                    await Plotly.update(plot, update, layout, [0, 1]);
+                    // keep dash's figure in sync so a camera event cannot restore old data
+                    dash_clientside.set_props('zvc-plot', {
+                        figure: {data: plot.data, layout: plot.layout}
+                    });
+                    drawn = serial;
+                    if (drawn === state.serial) {
+                        dash_clientside.set_props('C-value', {children: 'C = ' + frame.C.toFixed(8)});
+                        status('both views updated in ' + Math.round(performance.now() - start) + ' ms');
+                    }
+                } while (drawn !== state.serial);
+            } catch (error) {
+                status('could not update: ' + error.message + '; move the slider to retry');
+            } finally {
+                state.busy = false;
+            }
+        }
+
+        drawLatest();
+        return dash_clientside.no_update;
+    }
+    ''',
+    Output('C-value', 'children'), Input('C-slider', 'value'), prevent_initial_call=True
 )
 
 
