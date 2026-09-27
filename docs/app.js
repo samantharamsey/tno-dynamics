@@ -199,7 +199,11 @@ function createView(element, bounds, steps, closeup = false) {
   const span = Math.max(size.x, size.y, size.z);
 
   const camera = new THREE.PerspectiveCamera(38, 1, span*0.0001, span*20);
-  camera.position.copy(center).add(new THREE.Vector3(span*1.35, -span*1.55, span*0.9));
+  const cameraOffset = closeup
+    ? new THREE.Vector3(span*0.4, -span*0.65, span*2.4)
+    : new THREE.Vector3(span*1.35, -span*1.55, span*0.9);
+  camera.position.copy(center).add(cameraOffset);
+  if (closeup) camera.up.set(1, 0, 0);
   camera.lookAt(center);
 
   const material = new THREE.ShaderMaterial({
