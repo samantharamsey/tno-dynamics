@@ -326,3 +326,51 @@ body {
     gap: .25rem;
   }
 }
+
+.dissertation-main h4 {
+  color: var(--night);
+  margin-top: 1.8rem;
+}
+
+.dissertation-main table {
+  border-collapse: collapse;
+  display: block;
+  font-size: .9rem;
+  margin: 1.6rem 0 2rem;
+  max-width: 100%;
+  overflow-x: auto;
+  width: max-content;
+}
+
+.dissertation-main th,
+.dissertation-main td {
+  border-bottom: 1px solid var(--line);
+  padding: .55rem .8rem;
+  white-space: nowrap;
+}
+
+.dissertation-main th {
+  background: var(--mist);
+  color: var(--night);
+}
+
+.dissertation-main li + li {
+  margin-top: .35rem;
+}
+
+.dissertation-outline {
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.dissertation-outline ol ol a {
+  font-size: .78rem;
+}
+
+@media (max-width: 860px) {
+  .dissertation-outline {
+    max-height: none;
+    overflow-y: visible;
+  }
+}
