@@ -106,14 +106,14 @@ grids = (prepare_grid(system_axes, cylindrical=True), prepare_grid(local_axes))
 
 # lighter grids provide responsive feedback while the slider is moving
 preview_local_axes = (
-    local_axis(xmin, xmax, 1 - mu, 36, [L1[0], 1 - mu, L2[0]]),
-    local_axis(ymin, ymax, 0, 36, [0]),
-    local_axis(zmin, zmax, 0, 36, [0])
+    local_axis(xmin, xmax, 1 - mu, 26, [L1[0], 1 - mu, L2[0]]),
+    local_axis(ymin, ymax, 0, 26, [0]),
+    local_axis(zmin, zmax, 0, 26, [0])
 )
 preview_system_axes = (
-    axis_with_detail(0, 1.5, 36, [L1[0], 1 - mu, 1, L2[0]]),
-    np.linspace(0, 2*np.pi, 49),
-    local_axis(-1, 1, 0, 22, [0])
+    axis_with_detail(0, 1.5, 28, [L1[0], 1 - mu, 1, L2[0]]),
+    np.linspace(0, 2*np.pi, 37),
+    local_axis(-1, 1, 0, 17, [0])
 )
 preview_grids = (prepare_grid(preview_system_axes, cylindrical=True),
                  prepare_grid(preview_local_axes))
@@ -369,7 +369,7 @@ app.clientside_callback(
             if (serial !== state.serial) return;
             state.requested = {serial: serial, value: state.latest, quality: 'full'};
             drawLatest();
-        }, 250);
+        }, 350);
 
         function status(text) {
             dash_clientside.set_props('render-status', {children: text});
