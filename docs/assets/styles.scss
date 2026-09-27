@@ -62,6 +62,10 @@ body {
   text-shadow: 0 2px 18px rgba(0, 0, 0, .8);
 }
 
+.layout-feature-page .content {
+  width: 100%;
+}
+
 .typeset h2,
 .typeset h3 {
   color: var(--night);
