@@ -1,0 +1,47 @@
+remote_theme: daviddarnes/alembic@main
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-include-cache
+
+url: 'https://samantharamsey.github.io'
+baseurl: '/tno-dynamics'
+title: 'Samantha Ramsey'
+description: 'Research in trans-Neptunian object dynamics, the circular restricted three-body problem, and orbital transport.'
+lang: en-US
+permalink: pretty
+service_worker: false
+
+navigation_header:
+  - title: Home
+    url: /tno-dynamics/
+  - title: Research
+    url: /tno-dynamics/research/
+  - title: Interactive Tools
+    url: /tno-dynamics/interactive-tools/
+  - title: Publications
+    url: /tno-dynamics/publications/
+  - title: CV
+    url: /tno-dynamics/cv/
+  - title: About
+    url: /tno-dynamics/about/
+
+navigation_footer:
+  - title: GitHub
+    url: https://github.com/samantharamsey
+  - title: Back to top
+    url: '#top'
+
+defaults:
+  - scope:
+      path: ''
+      type: pages
+    values:
+      layout: page
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
