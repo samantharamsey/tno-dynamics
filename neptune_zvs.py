@@ -96,6 +96,7 @@ X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
 app = Dash(__name__)
 
+server = app.server
 
 app.layout = html.Div([
 
