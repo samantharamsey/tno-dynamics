@@ -54,7 +54,7 @@ def C_to_slider(C):
 xmin, xmax = L1[0] - 0.03, L2[0] + 0.03
 ymin, ymax = -0.08, 0.08
 zmin, zmax = -0.08, 0.08
-ngrid = 96
+ngrid = 80
 
 
 def axis_with_detail(low, high, count, extra):
@@ -76,9 +76,9 @@ local_axes = (
     local_axis(zmin, zmax, 0, ngrid, [0])
 )
 system_axes = (
-    axis_with_detail(0, 1.5, 72, [L1[0], 1 - mu, 1, L2[0]]),
-    np.linspace(0, 2*np.pi, 129),
-    local_axis(-1, 1, 0, 48, [0])
+    axis_with_detail(0, 1.5, 64, [L1[0], 1 - mu, 1, L2[0]]),
+    np.linspace(0, 2*np.pi, 97),
+    local_axis(-1, 1, 0, 40, [0])
 )
 
 
@@ -156,7 +156,9 @@ def surface_mesh(grid, C):
         faces = faces[(faces[:, 0] != faces[:, 1]) & (faces[:, 1] != faces[:, 2])
                       & (faces[:, 0] != faces[:, 2])]
         xyz = [np.ascontiguousarray(points[:, j], dtype='<f4') for j in range(3)]
-    ijk = [np.ascontiguousarray(faces[:, j], dtype='<u4') for j in range(3)]
+    if len(xyz[0]) > np.iinfo(np.uint16).max:
+        raise ValueError('mesh has too many vertices for compact indices')
+    ijk = [np.ascontiguousarray(faces[:, j], dtype='<u2') for j in range(3)]
     return xyz + ijk
 
 
@@ -358,8 +360,8 @@ app.clientside_callback(
                     const position = ['x', 'y', 'z'].includes(key);
                     const count = position ? nv : nf;
                     mesh[key] = position ? new Float32Array(buffer, offset, count)
-                                         : new Uint32Array(buffer, offset, count);
-                    offset += count*4;
+                                         : new Uint16Array(buffer, offset, count);
+                    offset += count*(position ? 4 : 2);
                 }
                 meshes.push(mesh);
             }
