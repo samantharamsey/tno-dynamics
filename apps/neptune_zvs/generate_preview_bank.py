@@ -2,11 +2,13 @@
 
 import gzip
 import struct
+import sys
 from pathlib import Path
 
 import numpy as np
 
-import neptune_zvs as app
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from apps.neptune_zvs import app
 
 
 output = bytearray(struct.pack('<4sII', b'ZVSB', 1, 161))
