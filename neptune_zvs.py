@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.graph_objects as go
 
-from dash import Dash, dcc, html, Input, Output, State
+from dash import Dash, dcc, html, Input, Output, Patch
 
 import sys
 sys.path.append('src')
@@ -94,9 +94,199 @@ z = np.linspace(zmin, zmax, 70)
 X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
 
-app = Dash(__name__)
+# precompute twice the potential and flatten the constant grid once
+ZVC_flat = zero_velocity(X, Y, Z, 0, mu).flatten()
+X_flat = X.flatten()
+Y_flat = Y.flatten()
+Z_flat = Z.flatten()
 
+# build the initial figure once
+C = slider_to_C(0)
+F = ZVC_flat - C
+
+fig = go.Figure()
+
+fig.add_trace(go.Isosurface(
+    x=X_flat,
+    y=Y_flat,
+    z=Z_flat,
+    value=F,
+
+    isomin=-1e-3,
+    isomax=1e-3,
+    surface_count=1,
+
+    caps=dict(
+        x_show=False,
+        y_show=False,
+        z_show=False
+    ),
+
+    showscale=False,
+    opacity=0.35,
+
+    colorscale=[
+        [0.0, '#f3e8ff'],
+        [0.5, '#d8b4fe'],
+        [1.0, '#c084fc']
+    ],
+
+    name=f'C = {C:.6f}'
+))
+
+# neptune
+xN, yN, zN, UN, VN = sphere([1 - mu, 0, 0], R_neptune_plot)
+
+# simple banded surface coloring to make neptune look nicer
+surfacecolor = 0.55 + 0.25*np.sin(8*VN) + 0.08*np.cos(2*UN)
+
+fig.add_trace(go.Surface(
+    x=xN,
+    y=yN,
+    z=zN,
+    surfacecolor=surfacecolor,
+
+    colorscale=[
+        [0.0, '#123b7a'],
+        [0.25, '#2456c3'],
+        [0.5, '#4f8cff'],
+        [0.75, '#88d3ff'],
+        [1.0, '#d6f4ff']
+    ],
+
+    showscale=False,
+    name='neptune',
+    hoverinfo='skip',
+
+    lighting=dict(
+        ambient=0.55,
+        diffuse=0.8,
+        specular=0.35,
+        roughness=0.6,
+        fresnel=0.1
+    ),
+
+    lightposition=dict(
+        x=2,
+        y=1,
+        z=1
+    )
+))
+
+fig.add_trace(go.Scatter3d(
+    x=[1 - mu],
+    y=[0],
+    z=[0],
+    mode='text',
+    text=['neptune'],
+    textposition='top center',
+    textfont=dict(
+        color='white',
+        size=12
+    ),
+    showlegend=False
+))
+
+# l1 and l2 markers
+fig.add_trace(go.Scatter3d(
+    x=[L1[0], L2[0]],
+    y=[0, 0],
+    z=[0, 0],
+    mode='markers',
+    marker=dict(
+        size=3,
+        color='gold',
+        symbol='diamond'
+    ),
+    name='lagrange points'
+))
+
+# l1 and l2 labels
+fig.add_trace(go.Scatter3d(
+    x=[L1[0], L2[0]],
+    y=[0, 0],
+    z=[0, 0],
+    mode='text',
+    text=['L1', 'L2'],
+    textposition='top center',
+    textfont=dict(
+        color='white',
+        size=12
+    ),
+    showlegend=False
+))
+
+fig.update_layout(
+    title=f'zero-velocity surface near neptune, C = {C:.6f}',
+
+    paper_bgcolor='black',
+    plot_bgcolor='black',
+    font=dict(color='white'),
+
+    legend=dict(
+        bgcolor='rgba(0,0,0,0)',
+        font=dict(color='white')
+    ),
+
+    uirevision='keep',
+    scene_uirevision='keep',
+
+    scene=dict(
+        xaxis=dict(
+            title='x',
+            range=[xmin, xmax],
+            color='white',
+            backgroundcolor='black',
+            gridcolor='rgb(40, 40, 40)',
+            zerolinecolor='rgb(70, 70, 70)',
+            linecolor='rgb(60, 60, 60)',
+            showbackground=True,
+            showgrid=False,
+            zeroline=True
+        ),
+
+        yaxis=dict(
+            title='y',
+            range=[ymin, ymax],
+            color='white',
+            backgroundcolor='black',
+            gridcolor='rgb(40, 40, 40)',
+            zerolinecolor='rgb(70, 70, 70)',
+            linecolor='rgb(60, 60, 60)',
+            showbackground=True,
+            showgrid=False,
+            zeroline=True
+        ),
+
+        zaxis=dict(
+            title='z',
+            range=[zmin, zmax],
+            color='white',
+            backgroundcolor='black',
+            gridcolor='rgb(40, 40, 40)',
+            zerolinecolor='rgb(70, 70, 70)',
+            linecolor='rgb(60, 60, 60)',
+            showbackground=True,
+            showgrid=False,
+            zeroline=True
+        ),
+
+        aspectmode='data'
+    ),
+
+    margin=dict(
+        l=0,
+        r=0,
+        t=50,
+        b=0
+    ),
+
+    autosize=True
+)
+
+app = Dash(__name__)
 server = app.server
+
 
 app.layout = html.Div([
 
@@ -104,6 +294,7 @@ app.layout = html.Div([
 
     dcc.Graph(
         id='zvc-plot',
+        figure=fig,
         style={
             'height': '85vh',
             'width': '100%'},
@@ -117,6 +308,7 @@ app.layout = html.Div([
 
         html.Div(
             id='C-value',
+            children=f'C = {C:.8f}',
             style={
                 'textAlign': 'center',
                 'marginBottom': '5px'
@@ -149,204 +341,19 @@ app.layout = html.Div([
     Output('zvc-plot', 'figure'),
     Output('C-value', 'children'),
     Input('C-slider', 'value'),
-    State('zvc-plot', 'relayoutData')
+    prevent_initial_call=True
 )
-def update_surface(s, relayout_data):
-
+def update_surface(s):
     # convert slider position to jacobi constant
     C = slider_to_C(s)
 
-    # preserve the current camera position
-    camera = None
+    # update only the surface values and titles, leaving the camera untouched
+    patched_fig = Patch()
+    patched_fig['data'][0]['value'] = ZVC_flat - C
+    patched_fig['data'][0]['name'] = f'C = {C:.6f}'
+    patched_fig['layout']['title']['text'] = f'zero-velocity surface near neptune, C = {C:.6f}'
 
-    if relayout_data is not None:
-        if 'scene.camera' in relayout_data:
-            camera = relayout_data['scene.camera']
-
-    F = zero_velocity(X, Y, Z, C, mu)
-
-    fig = go.Figure()
-
-    fig.add_trace(go.Isosurface(
-        x=X.flatten(),
-        y=Y.flatten(),
-        z=Z.flatten(),
-        value=F.flatten(),
-
-        isomin=-1e-3,
-        isomax=1e-3,
-        surface_count=1,
-
-        caps=dict(
-            x_show=False,
-            y_show=False,
-            z_show=False
-        ),
-
-        showscale=False,
-        opacity=0.35,
-
-        colorscale=[
-            [0.0, '#f3e8ff'],
-            [0.5, '#d8b4fe'],
-            [1.0, '#c084fc']
-        ],
-
-        name=f'C = {C:.6f}'
-    ))
-
-    # neptune
-    xN, yN, zN, UN, VN = sphere([1 - mu, 0, 0], R_neptune_plot)
-
-    # simple banded surface coloring to make neptune look nicer
-    surfacecolor = 0.55 + 0.25*np.sin(8*VN) + 0.08*np.cos(2*UN)
-
-    fig.add_trace(go.Surface(
-        x=xN,
-        y=yN,
-        z=zN,
-        surfacecolor=surfacecolor,
-
-        colorscale=[
-            [0.0, '#123b7a'],
-            [0.25, '#2456c3'],
-            [0.5, '#4f8cff'],
-            [0.75, '#88d3ff'],
-            [1.0, '#d6f4ff']
-        ],
-
-        showscale=False,
-        name='neptune',
-        hoverinfo='skip',
-
-        lighting=dict(
-            ambient=0.55,
-            diffuse=0.8,
-            specular=0.35,
-            roughness=0.6,
-            fresnel=0.1
-        ),
-
-        lightposition=dict(
-            x=2,
-            y=1,
-            z=1
-        )
-    ))
-
-    fig.add_trace(go.Scatter3d(
-        x=[1 - mu],
-        y=[0],
-        z=[0],
-        mode='text',
-        text=['neptune'],
-        textposition='top center',
-        textfont=dict(
-            color='white',
-            size=12
-        ),
-        showlegend=False
-    ))
-
-    # l1 and l2 markers
-    fig.add_trace(go.Scatter3d(
-        x=[L1[0], L2[0]],
-        y=[0, 0],
-        z=[0, 0],
-        mode='markers',
-        marker=dict(
-            size=3,
-            color='gold',
-            symbol='diamond'
-        ),
-        name='lagrange points'
-    ))
-
-    # l1 and l2 labels
-    fig.add_trace(go.Scatter3d(
-        x=[L1[0], L2[0]],
-        y=[0, 0],
-        z=[0, 0],
-        mode='text',
-        text=['L1', 'L2'],
-        textposition='top center',
-        textfont=dict(
-            color='white',
-            size=12
-        ),
-        showlegend=False
-    ))
-
-    fig.update_layout(
-        title=f'zero-velocity surface near neptune, C = {C:.6f}',
-
-        paper_bgcolor='black',
-        plot_bgcolor='black',
-        font=dict(color='white'),
-
-        legend=dict(
-            bgcolor='rgba(0,0,0,0)',
-            font=dict(color='white')
-        ),
-
-        uirevision='keep',
-        scene_uirevision='keep',
-
-        scene=dict(
-            xaxis=dict(
-                title='x',
-                range=[xmin, xmax],
-                color='white',
-                backgroundcolor='black',
-                gridcolor='rgb(40, 40, 40)',
-                zerolinecolor='rgb(70, 70, 70)',
-                linecolor='rgb(60, 60, 60)',
-                showbackground=True,
-                showgrid=False,
-                zeroline=True
-            ),
-
-            yaxis=dict(
-                title='y',
-                range=[ymin, ymax],
-                color='white',
-                backgroundcolor='black',
-                gridcolor='rgb(40, 40, 40)',
-                zerolinecolor='rgb(70, 70, 70)',
-                linecolor='rgb(60, 60, 60)',
-                showbackground=True,
-                showgrid=False,
-                zeroline=True
-            ),
-
-            zaxis=dict(
-                title='z',
-                range=[zmin, zmax],
-                color='white',
-                backgroundcolor='black',
-                gridcolor='rgb(40, 40, 40)',
-                zerolinecolor='rgb(70, 70, 70)',
-                linecolor='rgb(60, 60, 60)',
-                showbackground=True,
-                showgrid=False,
-                zeroline=True
-            ),
-
-            aspectmode='data',
-            camera=camera
-        ),
-
-        margin=dict(
-            l=0,
-            r=0,
-            t=50,
-            b=0
-        ),
-
-        autosize=True
-    )
-
-    return fig, f'C = {C:.8f}'
+    return patched_fig, f'C = {C:.8f}'
 
 
 if __name__ == '__main__':
