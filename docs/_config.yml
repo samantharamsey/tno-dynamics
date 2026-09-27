@@ -17,17 +17,17 @@ service_worker: false
 
 navigation_header:
   - title: Home
-    url: /tno-dynamics/
+    url: /
   - title: Research
-    url: /tno-dynamics/research/
+    url: /research/
   - title: Interactive Tools
-    url: /tno-dynamics/interactive-tools/
+    url: /interactive-tools/
   - title: Publications
-    url: /tno-dynamics/publications/
+    url: /publications/
   - title: CV
-    url: /tno-dynamics/cv/
+    url: /cv/
   - title: About
-    url: /tno-dynamics/about/
+    url: /about/
 
 navigation_footer:
   - title: GitHub
@@ -40,7 +40,7 @@ defaults:
       path: ''
       type: pages
     values:
-      layout: page
+      layout: feature-page
 
 exclude:
   - Gemfile

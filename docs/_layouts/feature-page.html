@@ -1,0 +1,11 @@
+---
+layout: default
+---
+
+{% include site-header.html %}
+
+{{ content }}
+
+{% if page.aside == true %}{% include site-aside.html %}{% endif %}
+
+{% include site-footer.html %}
