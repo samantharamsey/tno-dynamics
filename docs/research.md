@@ -241,6 +241,21 @@ The conversion rules that will be used throughout the computational work are the
 \tag{3.1}
 \]</div>
 
+For the Sun–Neptune model, take the constant primary separation to be Neptune's representative semimajor axis, <span class="math-inline">$a=30.07\ \mathrm{AU}$</span>, and use the same solar and Neptunian masses adopted by the numerical model. The resulting characteristic scales are summarized below.
+
+**Table 3.1.** Characteristic units for the nondimensional Sun–Neptune CR3BP.
+
+| Quantity | Definition | Sun–Neptune value | Nondimensional interpretation |
+|:--|:--|--:|:--|
+| Length | <span class="math-inline">$l^*=a$</span> | <span class="math-inline">$30.07\ \mathrm{AU}=4.4984\times10^9\ \mathrm{km}$</span> | The primary separation is 1 |
+| Mass | <span class="math-inline">$m^*=m_1+m_2$</span> | <span class="math-inline">$1.98910\times10^{30}\ \mathrm{kg}$</span> | The total primary mass is 1 |
+| Time | <span class="math-inline">$t^*=1/n$</span> | <span class="math-inline">$8.2805\times10^8\ \mathrm{s}=26.239\ \mathrm{yr}$</span> | One time unit advances the primaries by one radian |
+| Velocity | <span class="math-inline">$v^*=l^*/t^*=an$</span> | <span class="math-inline">$5.433\ \mathrm{km\,s^{-1}}$</span> | A normalized speed of 1 equals <span class="math-inline">$v^*$</span> |
+| Angular rate | <span class="math-inline">$n=1/t^*$</span> | <span class="math-inline">$1.20766\times10^{-9}\ \mathrm{s^{-1}}$</span> | The normalized mean motion is 1 |
+| Orbital period | <span class="math-inline">$T=2\pi t^*$</span> | <span class="math-inline">$164.867\ \mathrm{yr}$</span> | One revolution spans <span class="math-inline">$2\pi$</span> time units |
+
+The time unit is therefore not one orbital period. It is the time required for the rotating frame to advance by one radian; a complete circular revolution requires <span class="math-inline">$2\pi$</span> nondimensional time units. Likewise, a normalized displacement or speed is converted to physical units by multiplying by the corresponding length or velocity scale in Table 3.1.
+
 This normalization sets the primary separation, total mass, gravitational parameter, and mean motion to unity. It also makes results transferable between systems with different physical scales but the same mass parameter <span class="math-inline">$\mu$</span>.
 
 ### 3.4 Nondimensional equations {#nondimensional-equations}
