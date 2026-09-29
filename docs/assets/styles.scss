@@ -374,3 +374,27 @@ body {
     overflow-y: visible;
   }
 }
+
+.research-figure {
+  margin: 2.25rem 0;
+}
+
+.research-figure img {
+  background: #050505;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.research-figure figcaption {
+  color: var(--muted);
+  font-size: .84rem;
+  line-height: 1.55;
+  margin-top: .75rem;
+}
+
+.research-figure figcaption strong {
+  color: var(--night);
+}

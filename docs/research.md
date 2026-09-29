@@ -56,6 +56,19 @@ These choices are made to remove motion that is already understood. A barycentri
 
 The right-handed convention also fixes the signs of the Coriolis terms. With positive rotation about <span class="math-inline">$+\hat{\mathbf z}$</span>, positive <span class="math-inline">$x$</span> points toward the smaller primary, positive <span class="math-inline">$y$</span> lies ninety degrees ahead in the direction of rotation, and <span class="math-inline">$\hat{\mathbf x}\times\hat{\mathbf y}=\hat{\mathbf z}$</span>. Stating this convention explicitly prevents an apparently minor plotting choice from reversing terms in the equations of motion.
 
+<figure class="research-figure" id="figure-reference-frames">
+  <img
+    src="{{ '/assets/images/research/cr3bp/rotating-inertial-frames.png' | relative_url }}"
+    alt="Diagram of the inertial X-Y frame and rotating x-hat-y-hat frame for a restricted three-body system, showing the two primaries, barycenter, and third body."
+    loading="lazy"
+  >
+  <figcaption>
+    <strong>Figure 2.1.</strong> Inertial and rotating coordinate frames for the restricted three-body problem. The primaries <span class="math-inline">$P_1$</span> and <span class="math-inline">$P_2$</span> orbit their barycenter <span class="math-inline">$B$</span>; the rotating <span class="math-inline">$\hat{x}$</span>-axis remains aligned with the primary pair, while <span class="math-inline">$P_3$</span> is free to move relative to that frame. The geometry is schematic and not to scale.
+  </figcaption>
+</figure>
+
+Figure 2.1 shows the distinction between changing coordinates and changing physical position. The inertial basis <span class="math-inline">$(X,Y)$</span> remains fixed, while the rotating basis <span class="math-inline">$(\hat{x},\hat{y})$</span> turns with the line joining the primaries. The same third-body position can be resolved in either basis; the transport theorem introduced in Section 3.2 relates the time derivatives measured by those two observers.
+
 Let <span class="math-inline">$a$</span> be the constant separation between the primaries and define the mass parameter
 
 <div class="equation-block">\[
