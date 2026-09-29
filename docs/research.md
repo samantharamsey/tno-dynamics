@@ -301,7 +301,18 @@ It is useful to anticipate the structure before reading the components. The term
 
 ### 4.1 Effective potential {#effective-potential}
 
-Define the rotating-frame effective potential
+The component equations in Eq. (3.2) contain three kinds of terms: gravitational acceleration from each primary, centrifugal acceleration caused by the rotating coordinates, and Coriolis acceleration caused by motion within those coordinates. The first two depend only on position. It is useful to collect them into one scalar function whose spatial derivatives reproduce every position-dependent term in the equations of motion.
+
+To construct that function, first note that differentiating <span class="math-inline">$(1-\mu)/r_1$</span> or <span class="math-inline">$\mu/r_2$</span> produces the corresponding gravitational acceleration toward a primary. For example,
+
+<div class="equation-block">\[
+\frac{\partial}{\partial x}\left(\frac{1-\mu}{r_1}\right)
+=-\frac{(1-\mu)(x+\mu)}{r_1^3}.
+\]</div>
+
+Similarly, differentiating <span class="math-inline">$(x^2+y^2)/2$</span> produces <span class="math-inline">$(x,y,0)$</span>, the nondimensional centrifugal acceleration. There is no <span class="math-inline">$z^2/2$</span> contribution because the frame rotates about the <span class="math-inline">$z$</span>-axis: centrifugal acceleration depends on distance from that axis, <span class="math-inline">$\sqrt{x^2+y^2}$</span>, and has no <span class="math-inline">$z$</span>-component.
+
+These observations motivate the definition of the rotating-frame effective potential
 
 <div class="equation-block">\[
 \Omega(x,y,z)
@@ -311,7 +322,25 @@ Define the rotating-frame effective potential
 \tag{4.1}
 \]</div>
 
-The first term is the centrifugal contribution and the remaining terms are gravitational. Equation (3.2) can be written compactly as
+The sign convention deserves attention. Ordinary gravitational potential energy per unit mass is negative, whereas the reciprocal-distance terms in <span class="math-inline">$\Omega$</span> are positive. This convention is chosen so that <span class="math-inline">$\nabla\Omega$</span> appears directly on the right side of the rotating equations. Thus <span class="math-inline">$\Omega$</span> is an effective or pseudopotential constructed for the rotating equations, not the ordinary inertial gravitational potential energy.
+
+Taking its partial derivatives gives
+
+<div class="equation-block">\[
+\begin{aligned}
+\Omega_x
+&=x-\frac{(1-\mu)(x+\mu)}{r_1^3}
+-\frac{\mu(x-1+\mu)}{r_2^3},\\
+\Omega_y
+&=y-\frac{(1-\mu)y}{r_1^3}
+-\frac{\mu y}{r_2^3},\\
+\Omega_z
+&=-\frac{(1-\mu)z}{r_1^3}
+-\frac{\mu z}{r_2^3}.
+\end{aligned}
+\]</div>
+
+Substituting these derivatives into Eq. (3.2) lets the equations of motion be written compactly as
 
 <div class="equation-block">\[
 \ddot{x}-2\dot{y}=\Omega_x,
@@ -322,13 +351,28 @@ The first term is the centrifugal contribution and the remaining terms are gravi
 \tag{4.2}
 \]</div>
 
-The word *effective* matters. <span class="math-inline">$\Omega$</span> packages the position-dependent gravitational and centrifugal contributions into one scalar function, but it does not include the velocity-dependent Coriolis acceleration. That term cannot be represented by the gradient of a scalar potential. The compact form works because the Coriolis contribution is written separately on the left side of the equations.
+Here, subscripts denote partial derivatives. The word *effective* emphasizes that <span class="math-inline">$\Omega$</span> combines the gravitational and centrifugal contributions seen in the rotating frame. It does not include Coriolis acceleration, which depends on velocity and therefore cannot be obtained from the gradient of a position-only scalar. The Coriolis terms remain explicitly on the left side of Eq. (4.2).
 
-Here, subscripts denote partial derivatives.
+This reformulation serves two purposes. First, equilibrium points can be found from the single vector condition <span class="math-inline">$\nabla\Omega=\mathbf{0}$</span>. Second, the gradient form exposes a conserved quantity. That conservation law is derived next and will later determine which regions of configuration space are accessible at a selected energy level.
 
 ### 4.2 Derivation of the integral {#jacobi-derivation}
 
-Multiply the three equations in Eq. (4.2) by <span class="math-inline">$\dot{x}$</span>, <span class="math-inline">$\dot{y}$</span>, and <span class="math-inline">$\dot{z}$</span>, respectively, and add them. The two Coriolis terms cancel because they do no work:
+Because the rotating-frame equations contain no explicit time dependence, it is reasonable to search for a quantity that remains constant along a trajectory. The useful step is to convert acceleration into the time derivative of squared speed. To do this, multiply the three equations in Eq. (4.2) by their corresponding velocity components, <span class="math-inline">$\dot{x}$</span>, <span class="math-inline">$\dot{y}$</span>, and <span class="math-inline">$\dot{z}$</span>, and add:
+
+<div class="equation-block">\[
+\dot{x}(\ddot{x}-2\dot{y})
++\dot{y}(\ddot{y}+2\dot{x})
++\dot{z}\ddot{z}
+=\Omega_x\dot{x}+\Omega_y\dot{y}+\Omega_z\dot{z}.
+\]</div>
+
+The Coriolis contributions cancel algebraically,
+
+<div class="equation-block">\[
+-2\dot{x}\dot{y}+2\dot{y}\dot{x}=0,
+\]</div>
+
+leaving
 
 <div class="equation-block">\[
 \dot{x}\ddot{x}+\dot{y}\ddot{y}+\dot{z}\ddot{z}
@@ -336,7 +380,37 @@ Multiply the three equations in Eq. (4.2) by <span class="math-inline">$\dot{x}$
 
 \]</div>
 
-Both sides are total derivatives,
+The cancellation also has a physical meaning. The instantaneous power per unit mass supplied by an acceleration <span class="math-inline">$\mathbf{a}$</span> is <span class="math-inline">$\mathbf{a}\mathbin{\cdot}\mathbf{v}$</span>. Coriolis acceleration is
+
+<div class="equation-block">\[
+\mathbf{a}_{\mathrm{cor}}
+=-2\boldsymbol{\omega}\times\mathbf{v}.
+\]</div>
+
+A cross product is perpendicular to <span class="math-inline">$\mathbf{v}$</span>, so
+
+<div class="equation-block">\[
+\mathbf{a}_{\mathrm{cor}}\mathbin{\cdot}\mathbf{v}=0.
+\]</div>
+
+This is what it means to say that Coriolis acceleration does no work: it can turn the rotating-frame velocity vector, but it cannot directly change the speed or kinetic energy.
+
+Each side of the remaining equation is now recognizable as a total derivative. On the left,
+
+<div class="equation-block">\[
+\dot{x}\ddot{x}+\dot{y}\ddot{y}+\dot{z}\ddot{z}
+=\frac{d}{d\tau}
+\left[\frac{1}{2}(\dot{x}^2+\dot{y}^2+\dot{z}^2)\right].
+\]</div>
+
+On the right, the multivariable chain rule gives
+
+<div class="equation-block">\[
+\Omega_x\dot{x}+\Omega_y\dot{y}+\Omega_z\dot{z}
+=\frac{d\Omega}{d\tau}.
+\]</div>
+
+Therefore,
 
 <div class="equation-block">\[
 \frac{d}{d\tau}
@@ -345,9 +419,17 @@ Both sides are total derivatives,
 
 \]</div>
 
-The cancellation of the Coriolis terms has a physical interpretation: Coriolis acceleration is perpendicular to the rotating-frame velocity and therefore changes the direction of motion without directly changing the squared speed. This orthogonality is what permits a conserved scalar even though velocity appears explicitly in the equations.
+Moving both terms to one side shows directly that
 
-Integrating gives the Jacobi constant
+<div class="equation-block">\[
+\frac{d}{d\tau}
+\left[
+\frac{1}{2}(\dot{x}^2+\dot{y}^2+\dot{z}^2)-\Omega
+\right]=0.
+\]</div>
+
+The quantity in brackets is constant along an unforced CR3BP trajectory. By convention, multiply it by <span class="math-inline">$-2$</span> and define the Jacobi constant
+
 
 <div class="equation-block">\[
 C=2\Omega(x,y,z)
@@ -355,9 +437,15 @@ C=2\Omega(x,y,z)
 \tag{4.3}
 \]</div>
 
-The CR3BP is autonomous in the rotating frame, and <span class="math-inline">$C$</span> is its conserved first integral. It is related to the rotating-frame Hamiltonian by <span class="math-inline">$C=-2H$</span>; increasing <span class="math-inline">$C$</span> therefore corresponds to decreasing energy.
+The CR3BP is autonomous in the rotating frame, and <span class="math-inline">$C$</span> is its conserved first integral. Rearranging Eq. (4.3) makes its practical role clear:
 
-The Jacobi constant is not the ordinary inertial mechanical energy. It combines kinetic energy, gravitational terms, and the rotational contribution appropriate to this coordinate system. Calling it an energy-like integral is useful, but treating it as inertial energy would obscure the role of the rotating frame.
+<div class="equation-block">\[
+\dot{x}^2+\dot{y}^2+\dot{z}^2=2\Omega-C.
+\]</div>
+
+For a specified value of <span class="math-inline">$C$</span>, position determines the speed that would be required there. If <span class="math-inline">$2\Omega-C<0$</span>, the required squared speed would be negative, so that position is inaccessible to the trajectory. If <span class="math-inline">$2\Omega-C=0$</span>, the rotating-frame speed is zero and the position lies on a zero-velocity boundary. This is why deriving the Jacobi integral is useful: it converts a conserved quantity into a direct geometric restriction on motion without requiring the trajectory to be integrated first.
+
+The Jacobi constant is related to the rotating-frame Hamiltonian by <span class="math-inline">$C=-2H$</span>, so increasing <span class="math-inline">$C$</span> corresponds to decreasing rotating-frame energy. It is not the ordinary inertial mechanical energy. It combines rotating-frame kinetic energy with the gravitational and centrifugal contributions collected in <span class="math-inline">$\Omega$</span>. Calling it an energy-like integral is useful, but treating it as inertial energy would obscure the role of the rotating coordinates.
 
 ## 5. Equilibrium points and accessible geometry {#equilibrium-points}
 
