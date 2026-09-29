@@ -247,12 +247,12 @@ For the Sun–Neptune model, take the constant primary separation to be Neptune'
 
 | Quantity | Definition | Sun–Neptune value | Nondimensional interpretation |
 |:--|:--|--:|:--|
-| Length | <span class="math-inline">$l^\ast=a$</span> | <span class="math-inline">$30.07\ \mathrm{AU}=4.4984\times10^9\ \mathrm{km}$</span> | The primary separation is 1 |
-| Mass | <span class="math-inline">$m^\ast=m_1+m_2$</span> | <span class="math-inline">$1.98910\times10^{30}\ \mathrm{kg}$</span> | The total primary mass is 1 |
-| Time | <span class="math-inline">$t^\ast=1/n$</span> | <span class="math-inline">$8.2805\times10^8\ \mathrm{s}=26.239\ \mathrm{yr}$</span> | One time unit advances the primaries by one radian |
-| Velocity | <span class="math-inline">$v^\ast=l^\ast/t^\ast=an$</span> | <span class="math-inline">$5.433\ \mathrm{km\,s^{-1}}$</span> | A normalized speed of 1 equals <span class="math-inline">$v^\ast$</span> |
-| Angular rate | <span class="math-inline">$n=1/t^\ast$</span> | <span class="math-inline">$1.20766\times10^{-9}\ \mathrm{s^{-1}}$</span> | The normalized mean motion is 1 |
-| Orbital period | <span class="math-inline">$T=2\pi t^\ast$</span> | <span class="math-inline">$164.867\ \mathrm{yr}$</span> | One revolution spans <span class="math-inline">$2\pi$</span> time units |
+| Length | <span class="math-inline">$l^\star=a$</span> | <span class="math-inline">$30.07\ \mathrm{AU}=4.4984\times10^9\ \mathrm{km}$</span> | The primary separation is 1 |
+| Mass | <span class="math-inline">$m^\star=m_1+m_2$</span> | <span class="math-inline">$1.98910\times10^{30}\ \mathrm{kg}$</span> | The total primary mass is 1 |
+| Time | <span class="math-inline">$t^\star=1/n$</span> | <span class="math-inline">$8.2805\times10^8\ \mathrm{s}=26.239\ \mathrm{yr}$</span> | One time unit advances the primaries by one radian |
+| Velocity | <span class="math-inline">$v^\star=l^\star/t^\star=an$</span> | <span class="math-inline">$5.433\ \mathrm{km\,s^{-1}}$</span> | A normalized speed of 1 equals <span class="math-inline">$v^\star$</span> |
+| Angular rate | <span class="math-inline">$n=1/t^\star$</span> | <span class="math-inline">$1.20766\times10^{-9}\ \mathrm{s^{-1}}$</span> | The normalized mean motion is 1 |
+| Orbital period | <span class="math-inline">$T=2\pi t^\star$</span> | <span class="math-inline">$164.867\ \mathrm{yr}$</span> | One revolution spans <span class="math-inline">$2\pi$</span> time units |
 
 The time unit is therefore not one orbital period. It is the time required for the rotating frame to advance by one radian; a complete circular revolution requires <span class="math-inline">$2\pi$</span> nondimensional time units. Likewise, a normalized displacement or speed is converted to physical units by multiplying by the corresponding length or velocity scale in Table 3.1.
 
