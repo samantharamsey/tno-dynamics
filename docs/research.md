@@ -518,6 +518,21 @@ The name describes the instantaneous kinematic condition on the boundary: Eq. (5
 
 This planar construction makes the role of the critical values <span class="math-inline">$C_i=2\Omega(L_i)$</span> precise. A level curve changes topology only when it passes through a stationary point of <span class="math-inline">$\Omega$</span>. For <span class="math-inline">$C>C_i$</span>, the associated passage is closed by a forbidden region. As <span class="math-inline">$C$</span> decreases through <span class="math-inline">$C_i$</span>, the curve touches the equilibrium point and then separates, creating a neck in the allowed set. Thus <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> become gateways only after the energy level opens their corresponding necks.
 
+Figure 5.3 follows this sequence using the true Sun–Neptune mass parameter. The pale violet shading marks <span class="math-inline">$\mathcal F_C$</span>, while each dark violet boundary is a zero-velocity curve. Because Neptune's mass is small relative to the Sun's, the changes at <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> occupy only a narrow interval near <span class="math-inline">$x=1$</span>. The insets preserve the same physical mass ratio while resolving that local geometry.
+
+<figure class="research-figure" id="figure-zero-velocity-curves">
+  <img
+    src="{{ '/assets/images/research/cr3bp/zero-velocity-curves-levels.png' | relative_url }}"
+    alt="Four planar Sun-Neptune zero-velocity-curve plots at successive Jacobi constants. Violet shading identifies forbidden regions, and close-up insets resolve the narrow L1 and L2 gateways around Neptune."
+    loading="lazy"
+  >
+  <figcaption>
+    <strong>Figure 5.3.</strong> Planar zero-velocity curves for four Jacobi-constant regimes in the nondimensional Sun–Neptune rotating frame. (a) Above <span class="math-inline">$C_1$</span>, the regions surrounding the two primaries are separated. (b) Below <span class="math-inline">$C_1$</span> but above <span class="math-inline">$C_2$</span>, the <span class="math-inline">$L_1$</span> neck connects the Sun and Neptune neighborhoods while the exterior passage remains closed. (c) Below <span class="math-inline">$C_2$</span>, the <span class="math-inline">$L_2$</span> neck also opens and permits access between Neptune's neighborhood and the exterior region. (d) Below <span class="math-inline">$C_3$</span>, the third collinear gateway is open; the remaining forbidden regions contract toward <span class="math-inline">$L_4$</span> and <span class="math-inline">$L_5$</span> as <span class="math-inline">$C$</span> approaches <span class="math-inline">$C_{4,5}$</span>. The Sun and Neptune markers are enlarged for visibility.
+  </figcaption>
+</figure>
+
+Panel (a) therefore describes complete energetic separation: a trajectory confined to one allowed component cannot cross the shaded annulus. In panel (b), passage through <span class="math-inline">$L_1$</span> becomes energetically possible, but the closed <span class="math-inline">$L_2$</span> boundary still isolates that combined interior region from the exterior. Panel (c) adds the exterior route through <span class="math-inline">$L_2$</span>. Panel (d) shows the later opening at <span class="math-inline">$L_3$</span>; crossing the triangular-point level would remove the final forbidden islands.
+
 The curve establishes energetic permission, not dynamical transport. A connected allowed region means that passage is possible in configuration space, but a particular initial condition must still have the appropriate phase and velocity direction to pass through the neck. Most allowed states do not automatically follow that route.
 
 ### 5.7 Zero-velocity surfaces {#zero-velocity-regions}
