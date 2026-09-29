@@ -58,9 +58,10 @@ The right-handed convention also fixes the signs of the Coriolis terms. With pos
 
 <figure class="research-figure" id="figure-reference-frames">
   <img
-    src="{{ '/assets/images/research/cr3bp/rotating-inertial-frames.png' | relative_url }}"
+    src="{{ '/assets/images/research/cr3bp/rotating-inertial-frames-transparent.png' | relative_url }}"
     alt="Diagram of the inertial X-Y frame and rotating x-hat-y-hat frame for a restricted three-body system, showing the two primaries, barycenter, and third body."
     loading="lazy"
+    style="background: transparent;"
   >
   <figcaption>
     <strong>Figure 2.1.</strong> Inertial and rotating coordinate frames for the restricted three-body problem. The primaries <span class="math-inline">$P_1$</span> and <span class="math-inline">$P_2$</span> orbit their barycenter <span class="math-inline">$B$</span>; the rotating <span class="math-inline">$\hat{x}$</span>-axis remains aligned with the primary pair, while <span class="math-inline">$P_3$</span> is free to move relative to that frame. The geometry is schematic and not to scale.
