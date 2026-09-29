@@ -47,7 +47,7 @@ Let <span class="math-inline">$\mathcal{I}=(X,Y,Z)$</span> denote an inertial ba
 
 <div class="equation-block">\[
 \boldsymbol{\omega}=n\,\hat{\mathbf{z}},
-\tag{2.1}
+
 \]</div>
 
 where <span class="math-inline">$n$</span> is the mean motion of the primaries. The rotating <span class="math-inline">$x$</span>-axis always points from <span class="math-inline">$m_1$</span> toward <span class="math-inline">$m_2$</span>, the <span class="math-inline">$y$</span>-axis completes a right-handed basis in the orbital plane, and the <span class="math-inline">$z$</span>-axis is normal to that plane.
@@ -56,7 +56,7 @@ These choices are made to remove motion that is already understood. A barycentri
 
 The right-handed convention also fixes the signs of the Coriolis terms. With positive rotation about <span class="math-inline">$+\hat{\mathbf z}$</span>, positive <span class="math-inline">$x$</span> points toward the smaller primary, positive <span class="math-inline">$y$</span> lies ninety degrees ahead in the direction of rotation, and <span class="math-inline">$\hat{\mathbf x}\times\hat{\mathbf y}=\hat{\mathbf z}$</span>. Stating this convention explicitly prevents an apparently minor plotting choice from reversing terms in the equations of motion.
 
-<figure class="research-figure" id="figure-reference-frames">
+<figure class="research-figure research-figure--compact" id="figure-reference-frames">
   <img
     src="{{ '/assets/images/research/cr3bp/rotating-inertial-frames-transparent.png' | relative_url }}"
     alt="Diagram of the inertial X-Y frame and rotating x-hat-y-hat frame for a restricted three-body system, showing the two primaries, barycenter, and third body."
@@ -76,7 +76,7 @@ Let <span class="math-inline">$a$</span> be the constant separation between the 
 \mu=\frac{m_2}{m_1+m_2},
 \qquad
 1-\mu=\frac{m_1}{m_1+m_2}.
-\tag{2.2}
+\tag{2.1}
 \]</div>
 
 Because the origin is the barycenter, the dimensional primary positions in <span class="math-inline">$\mathcal{R}$</span> are
@@ -85,7 +85,7 @@ Because the origin is the barycenter, the dimensional primary positions in <span
 \widetilde{\mathbf{r}}_1=(-\mu a,0,0),
 \qquad
 \widetilde{\mathbf{r}}_2=((1-\mu)a,0,0).
-\tag{2.3}
+
 \]</div>
 
 The locations follow from two constraints: the bodies are separated by <span class="math-inline">$a$</span>, and their mass-weighted positions sum to zero. The more massive primary must lie closer to the origin, while the smaller primary traces the larger circle about the barycenter. Expressing the locations with <span class="math-inline">$\mu$</span> builds both constraints into the coordinates from the beginning.
@@ -98,7 +98,7 @@ For a third body at <span class="math-inline">$\widetilde{\mathbf{r}}=(\widetild
 \qquad
 \widetilde{\boldsymbol{\rho}}_2
 =\widetilde{\mathbf{r}}-\widetilde{\mathbf{r}}_2,
-\tag{2.4}
+
 \]</div>
 
 with magnitudes
@@ -109,7 +109,7 @@ with magnitudes
 \qquad
 \widetilde{\rho}_2
 =\sqrt{(\widetilde{x}-(1-\mu)a)^2+\widetilde{y}^2+\widetilde{z}^2}.
-\tag{2.5}
+
 \]</div>
 
 A tilde marks a dimensional quantity. Untilded variables introduced later are nondimensional.
@@ -124,7 +124,7 @@ Newton's second law in the inertial frame gives
 m_3\,{}^{\mathcal I}\!\ddot{\widetilde{\mathbf r}}
 =-\frac{Gm_1m_3}{\widetilde{\rho}_1^3}\widetilde{\boldsymbol{\rho}}_1
 -\frac{Gm_2m_3}{\widetilde{\rho}_2^3}\widetilde{\boldsymbol{\rho}}_2.
-\tag{3.1}
+
 \]</div>
 
 The factor <span class="math-inline">$m_3$</span> cancels. This is the mathematical consequence of the restricted approximation: the acceleration of the third body depends on the primaries and its position, but not on its own mass.
@@ -140,7 +140,7 @@ For any vector <span class="math-inline">$\mathbf{q}$</span>, derivatives observ
 =
 \left(\frac{d\mathbf q}{dt}\right)_{\!\mathcal R}
 +\boldsymbol{\omega}\times\mathbf q.
-\tag{3.2}
+
 \]</div>
 
 Applying the theorem twice to position produces the acceleration identity
@@ -153,7 +153,7 @@ Applying the theorem twice to position produces the acceleration identity
 +\dot{\boldsymbol{\omega}}\times\widetilde{\mathbf r}
 +\boldsymbol{\omega}\times
 (\boldsymbol{\omega}\times\widetilde{\mathbf r}).
-\tag{3.3}
+
 \]</div>
 
 The four terms on the right are the rotating-frame acceleration, the Coriolis acceleration, the Euler acceleration, and the centrifugal acceleration. Circular motion makes <span class="math-inline">$n$</span> constant, so <span class="math-inline">$\dot{\boldsymbol{\omega}}=0$</span>. Expanding the remaining cross products gives
@@ -164,14 +164,14 @@ The four terms on the right are the rotating-frame acceleration, the Coriolis ac
 (\ddot{\widetilde{x}}-2n\dot{\widetilde{y}}-n^2\widetilde{x})\hat{\mathbf x}
 +(\ddot{\widetilde{y}}+2n\dot{\widetilde{x}}-n^2\widetilde{y})\hat{\mathbf y}
 +\ddot{\widetilde{z}}\hat{\mathbf z}.
-\tag{3.4}
+
 \]</div>
 
 The factor of two in the Coriolis term is a direct consequence of differentiating twice. One contribution appears when the rotating basis acts on the position derivative, and a second appears when the velocity itself is transformed between frames. The Euler term measures changing frame rate and disappears only because the primary orbit has been assumed circular. The centrifugal term remains even for a body that is stationary in the rotating frame because the coordinate axes themselves are continually turning.
 
 These terms are not additional physical forces exerted by new bodies. They are the corrections required so that Newton's inertial equation can be expressed using coordinates measured by a rotating observer.
 
-Substitution into Eq. (3.1) yields the dimensional rotating-frame equations
+Substituting this inertial force law into the acceleration transformation yields the dimensional rotating-frame equations
 
 <div class="equation-block">\[
 \begin{aligned}
@@ -185,7 +185,7 @@ Substitution into Eq. (3.1) yields the dimensional rotating-frame equations
 &=-Gm_1\frac{\widetilde{z}}{\widetilde{\rho}_1^3}
 -Gm_2\frac{\widetilde{z}}{\widetilde{\rho}_2^3}.
 \end{aligned}
-\tag{3.5}
+
 \]</div>
 
 The Coriolis terms couple in-plane position and velocity. The centrifugal term has no <span class="math-inline">$z$</span>-component because the frame rotates about the <span class="math-inline">$z$</span>-axis.
@@ -202,7 +202,7 @@ l^*=a,
 m^*=m_1+m_2,
 \qquad
 t^*=\sqrt{\frac{a^3}{G(m_1+m_2)}}=\frac{1}{n}.
-\tag{3.6}
+
 \]</div>
 
 Kepler's third law gives <span class="math-inline">$n^2a^3=G(m_1+m_2)$</span>. The characteristic time <span class="math-inline">$t^*=1/n$</span> is the time associated with one radian of the primaries' motion; the full dimensional orbital period is <span class="math-inline">$2\pi t^*$</span>.
@@ -227,7 +227,7 @@ Define nondimensional variables by
 \tau=nt,
 \qquad
 \mathbf v=\frac{\widetilde{\mathbf v}}{an}.
-\tag{3.7}
+
 \]</div>
 
 The conversion rules that will be used throughout the computational work are therefore
@@ -238,7 +238,7 @@ The conversion rules that will be used throughout the computational work are the
 \widetilde{\mathbf v}=an\mathbf v,
 \qquad
 \widetilde{t}=\frac{\tau}{n}.
-\tag{3.8}
+\tag{3.1}
 \]</div>
 
 This normalization sets the primary separation, total mass, gravitational parameter, and mean motion to unity. It also makes results transferable between systems with different physical scales but the same mass parameter <span class="math-inline">$\mu$</span>.
@@ -251,7 +251,7 @@ In normalized coordinates the primaries are fixed at
 \mathbf r_1=(-\mu,0,0),
 \qquad
 \mathbf r_2=(1-\mu,0,0),
-\tag{3.9}
+
 \]</div>
 
 and the distances to the third body are
@@ -260,7 +260,7 @@ and the distances to the third body are
 r_1=\sqrt{(x+\mu)^2+y^2+z^2},
 \qquad
 r_2=\sqrt{(x-1+\mu)^2+y^2+z^2}.
-\tag{3.10}
+
 \]</div>
 
 Dots now denote differentiation with respect to nondimensional time <span class="math-inline">$\tau$</span>. The equations of motion become
@@ -277,7 +277,7 @@ Dots now denote differentiation with respect to nondimensional time <span class=
 &=-(1-\mu)\frac{z}{r_1^3}
 -\mu\frac{z}{r_2^3}.
 \end{aligned}
-\tag{3.11}
+\tag{3.2}
 \]</div>
 
 It is useful to anticipate the structure before reading the components. The terms proportional to position come from the centrifugal acceleration, the velocity cross terms are Coriolis accelerations, and the two inverse-cube vector terms point toward the primaries. The denominators become singular at the primary locations because the bodies are idealized as point masses; numerical propagation must therefore avoid or regularize true collisions.
@@ -296,7 +296,7 @@ Define the rotating-frame effective potential
 \tag{4.1}
 \]</div>
 
-The first term is the centrifugal contribution and the remaining terms are gravitational. Equation (3.11) can be written compactly as
+The first term is the centrifugal contribution and the remaining terms are gravitational. Equation (3.2) can be written compactly as
 
 <div class="equation-block">\[
 \ddot{x}-2\dot{y}=\Omega_x,
@@ -318,7 +318,7 @@ Multiply the three equations in Eq. (4.2) by <span class="math-inline">$\dot{x}$
 <div class="equation-block">\[
 \dot{x}\ddot{x}+\dot{y}\ddot{y}+\dot{z}\ddot{z}
 =\Omega_x\dot{x}+\Omega_y\dot{y}+\Omega_z\dot{z}.
-\tag{4.3}
+
 \]</div>
 
 Both sides are total derivatives,
@@ -327,7 +327,7 @@ Both sides are total derivatives,
 \frac{d}{d\tau}
 \left[\frac{1}{2}(\dot{x}^2+\dot{y}^2+\dot{z}^2)\right]
 =\frac{d\Omega}{d\tau}.
-\tag{4.4}
+
 \]</div>
 
 The cancellation of the Coriolis terms has a physical interpretation: Coriolis acceleration is perpendicular to the rotating-frame velocity and therefore changes the direction of motion without directly changing the squared speed. This orthogonality is what permits a conserved scalar even though velocity appears explicitly in the equations.
@@ -337,7 +337,7 @@ so integration gives the Jacobi constant
 <div class="equation-block">\[
 C=2\Omega(x,y,z)
 -\left(\dot{x}^2+\dot{y}^2+\dot{z}^2\right).
-\tag{4.5}
+\tag{4.3}
 \]</div>
 
 The CR3BP is autonomous in the rotating frame, and <span class="math-inline">$C$</span> is its conserved first integral. It is related to the rotating-frame Hamiltonian by <span class="math-inline">$C=-2H$</span>; increasing <span class="math-inline">$C$</span> therefore corresponds to decreasing energy.
@@ -383,7 +383,7 @@ For an equilibrium with <span class="math-inline">$y\neq0$</span>, the <span cla
 L_4=\left(\frac{1}{2}-\mu,\frac{\sqrt{3}}{2},0\right),
 \qquad
 L_5=\left(\frac{1}{2}-\mu,-\frac{\sqrt{3}}{2},0\right).
-\tag{5.2}
+
 \]</div>
 
 The equilateral geometry arises because equal unit distances make the two gravitational directions combine with the centrifugal direction in precisely the required ratio. The two solutions differ only by reflection across the <span class="math-inline">$x$</span>-axis. Stability is a separate question because an exact force balance says nothing about whether a small displacement grows or oscillates.
@@ -392,7 +392,7 @@ Their existence does not guarantee linear stability. In the CR3BP, the triangula
 
 <div class="equation-block">\[
 \mu_R=\frac{1}{2}\left(1-\sqrt{\frac{23}{27}}\right)\approx0.03852.
-\tag{5.3}
+
 \]</div>
 
 ### 5.3 Collinear points and root finding {#collinear-points}
@@ -405,7 +405,7 @@ x_{L_1}=1-\mu-\gamma_1,
 x_{L_2}=1-\mu+\gamma_2,
 \qquad
 x_{L_3}=-\mu-\gamma_3.
-\tag{5.4}
+
 \]</div>
 
 Solving directly for <span class="math-inline">$x$</span> is awkward because the signs of the two gravitational terms change across the primary locations. The three <span class="math-inline">$\gamma_i$</span> definitions identify the spatial region first and convert each distance to a positive quantity. The absolute values can then be removed without ambiguity, producing a different polynomial for each collinear point.
@@ -424,7 +424,7 @@ f_3(\gamma_3)
 &=\gamma_3^5+(2+\mu)\gamma_3^4+(1+2\mu)\gamma_3^3
 -(1-\mu)\gamma_3^2-2(1-\mu)\gamma_3-(1-\mu).
 \end{aligned}
-\tag{5.5}
+
 \]</div>
 
 The roots are computed iteratively with Newton's method,
@@ -433,7 +433,7 @@ The roots are computed iteratively with Newton's method,
 \gamma_i^{(k+1)}
 =\gamma_i^{(k)}
 -\frac{f_i(\gamma_i^{(k)})}{f_i'(\gamma_i^{(k)})}.
-\tag{5.6}
+
 \]</div>
 
 Iteration stops only after both the update and the polynomial residual are sufficiently small. Bracketing or safeguarded Newton methods are preferable when an initial guess may cross into the wrong spatial region.
@@ -446,7 +446,7 @@ Using the mass values currently adopted by the interactive model gives
 
 <div class="equation-block">\[
 \mu_{SN}=5.1485534\times10^{-5}.
-\tag{5.7}
+
 \]</div>
 
 The corresponding nondimensional equilibrium locations and critical Jacobi constants are:
@@ -485,12 +485,12 @@ The surface should not be interpreted as a complete stability test. Linear stabi
 
 ### 5.6 Planar zero-velocity curves and forbidden regions {#zero-velocity-curves}
 
-The planar CR3BP is obtained by imposing <span class="math-inline">$z=\dot z=0$</span>. With those restrictions, the Jacobi integral in Eq. (4.5) can be solved for the in-plane speed:
+The planar CR3BP is obtained by imposing <span class="math-inline">$z=\dot z=0$</span>. With those restrictions, the Jacobi integral in Eq. (4.3) can be solved for the in-plane speed:
 
 <div class="equation-block">\[
 v_p^2=\dot{x}^2+\dot{y}^2
 =2\Omega(x,y,0)-C.
-\tag{5.8}
+\tag{5.2}
 \]</div>
 
 Because the squared speed must be nonnegative, a selected value of <span class="math-inline">$C$</span> divides the rotating <span class="math-inline">$xy$</span>-plane into an allowed set and a forbidden set,
@@ -501,7 +501,7 @@ Because the squared speed must be nonnegative, a selected value of <span class="
 \qquad
 \mathcal F_C
 =\left\{(x,y):2\Omega(x,y,0)<C\right\}.
-\tag{5.9}
+\tag{5.3}
 \]</div>
 
 The boundary between them is the zero-velocity curve,
@@ -509,10 +509,10 @@ The boundary between them is the zero-velocity curve,
 <div class="equation-block">\[
 \Gamma_C
 =\left\{(x,y):2\Omega(x,y,0)=C\right\}.
-\tag{5.10}
+\tag{5.4}
 \]</div>
 
-The name describes the instantaneous kinematic condition on the boundary: Eq. (5.8) forces <span class="math-inline">$v_p=0$</span> at every point of <span class="math-inline">$\Gamma_C$</span>. The curve is not itself a trajectory and is not a material wall. It is the boundary of the configuration-space region compatible with the chosen Jacobi constant. Inside <span class="math-inline">$\mathcal F_C$</span>, Eq. (5.8) would require an imaginary speed, so no trajectory with that value of <span class="math-inline">$C$</span> can enter.
+The name describes the instantaneous kinematic condition on the boundary: Eq. (5.2) forces <span class="math-inline">$v_p=0$</span> at every point of <span class="math-inline">$\Gamma_C$</span>. The curve is not itself a trajectory and is not a material wall. It is the boundary of the configuration-space region compatible with the chosen Jacobi constant. Inside <span class="math-inline">$\mathcal F_C$</span>, Eq. (5.2) would require an imaginary speed, so no trajectory with that value of <span class="math-inline">$C$</span> can enter.
 
 This planar construction makes the role of the critical values <span class="math-inline">$C_i=2\Omega(L_i)$</span> precise. A level curve changes topology only when it passes through a stationary point of <span class="math-inline">$\Omega$</span>. For <span class="math-inline">$C>C_i$</span>, the associated passage is closed by a forbidden region. As <span class="math-inline">$C$</span> decreases through <span class="math-inline">$C_i$</span>, the curve touches the equilibrium point and then separates, creating a neck in the allowed set. Thus <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> become gateways only after the energy level opens their corresponding necks.
 
@@ -525,7 +525,7 @@ The same argument extends to spatial motion. Restoring <span class="math-inline"
 <div class="equation-block">\[
 v^2=\dot{x}^2+\dot{y}^2+\dot{z}^2
 =2\Omega(x,y,z)-C,
-\tag{5.11}
+\tag{5.5}
 \]</div>
 
 and the three-dimensional boundary of the accessible region is
@@ -533,10 +533,10 @@ and the three-dimensional boundary of the accessible region is
 <div class="equation-block">\[
 \mathcal S_C
 =\left\{(x,y,z):2\Omega(x,y,z)=C\right\}.
-\tag{5.12}
+\tag{5.6}
 \]</div>
 
-This boundary is the zero-velocity surface. Its intersection with <span class="math-inline">$z=0$</span> is the zero-velocity curve <span class="math-inline">$\Gamma_C$</span>. At a position inside the accessible volume, Eq. (5.11) fixes the magnitude of the allowable rotating-frame velocity but not its direction. A propagated orbit can therefore approach the boundary, lose speed in its normal direction, and turn back without colliding with a physical object.
+This boundary is the zero-velocity surface. Its intersection with <span class="math-inline">$z=0$</span> is the zero-velocity curve <span class="math-inline">$\Gamma_C$</span>. At a position inside the accessible volume, Eq. (5.5) fixes the magnitude of the allowable rotating-frame velocity but not its direction. A propagated orbit can therefore approach the boundary, lose speed in its normal direction, and turn back without colliding with a physical object.
 
 As <span class="math-inline">$C$</span> decreases, the planar neck openings extend into three-dimensional passages through the zero-velocity surface. In the Sun–Neptune system the small difference between <span class="math-inline">$C_1$</span> and <span class="math-inline">$C_2$</span> causes the inner and outer Neptune gateways to open at slightly different Jacobi constants. The interactive explorer shows both the global surface and the local Neptune geometry as these thresholds are crossed.
 
@@ -553,7 +553,7 @@ Numerical integrators operate on a first-order system. Define
 \begin{bmatrix}
 x&y&z&\dot{x}&\dot{y}&\dot{z}
 \end{bmatrix}^{\!T}.
-\tag{6.1}
+
 \]</div>
 
 A second-order vector equation is rewritten this way because general-purpose integration algorithms advance a state from its current value and first derivative. Position and velocity are therefore carried together. This also makes event detection, variational equations, and later state-transition-matrix calculations compatible with the same state representation.
@@ -570,20 +570,20 @@ Then
 -2\dot{x}+\Omega_y\\
 \Omega_z
 \end{bmatrix}.
-\tag{6.2}
+\tag{6.1}
 \]</div>
 
 This expression is the common interface between the analytical model and an adaptive numerical integrator.
 
 ### 6.2 Dimensional reconstruction {#dimensional-reconstruction}
 
-Nondimensional results are converted back to physical units with Eq. (3.8). For a primary system with separation <span class="math-inline">$a$</span>, total gravitational parameter <span class="math-inline">$G(m_1+m_2)$</span>, and state <span class="math-inline">$(\mathbf r,\mathbf v)$</span>,
+Nondimensional results are converted back to physical units with Eq. (3.1). For a primary system with separation <span class="math-inline">$a$</span>, total gravitational parameter <span class="math-inline">$G(m_1+m_2)$</span>, and state <span class="math-inline">$(\mathbf r,\mathbf v)$</span>,
 
 <div class="equation-block">\[
 \widetilde{\mathbf r}=a\mathbf r,
 \qquad
 \widetilde{\mathbf v}=\sqrt{\frac{G(m_1+m_2)}{a}}\,\mathbf v.
-\tag{6.3}
+
 \]</div>
 
 Reporting both normalized and dimensional values prevents scale conversions from becoming hidden implementation details.
@@ -594,7 +594,7 @@ For an unforced CR3BP trajectory, the computed Jacobi constant should remain equ
 
 <div class="equation-block">\[
 \Delta C(\tau)=C(\mathbf X(\tau))-C(\mathbf X(0)).
-\tag{6.4}
+
 \]</div>
 
 The analytical model conserves <span class="math-inline">$C$</span> exactly, whereas a numerical solver accumulates truncation and roundoff error. Monitoring the invariant supplies a physics-based diagnostic that is more informative than relying on the solver's internal success flag. A solver can finish successfully and still produce a trajectory whose invariant has drifted enough to cross a narrow dynamical gateway artificially.
@@ -621,10 +621,10 @@ An Earth-Moon trajectory provides a useful benchmark because the opening near <s
 \mathbf r_0=(-0.270,-0.420,0),
 \qquad
 \mathbf v_0=(0.300,-1.000,0),
-\tag{6.5}
+
 \]</div>
 
-Eq. (4.5) gives <span class="math-inline">$C_0=3.18647488$</span>. Since this value is slightly below the Earth-Moon <span class="math-inline">$L_1$</span> critical value, the zero-velocity curve contains a narrow gateway connecting the two primary neighborhoods while the outer gateways remain closed.
+Eq. (4.3) gives <span class="math-inline">$C_0=3.18647488$</span>. Since this value is slightly below the Earth-Moon <span class="math-inline">$L_1$</span> critical value, the zero-velocity curve contains a narrow gateway connecting the two primary neighborhoods while the outer gateways remain closed.
 
 This example separates a topological statement from a trajectory statement. The value of <span class="math-inline">$C_0$</span> proves that transit between the Earth and Moon regions is allowed and that escape through the outer necks is forbidden. It does not predict immediate lunar transfer. The state must still evolve onto the small set of directions and phases that carry it through the open neck.
 
@@ -636,7 +636,7 @@ With <span class="math-inline">$a=384{,}400\ \mathrm{km}$</span> and <span class
 \qquad
 \widetilde{\mathbf v}_0
 =(0.30736,-1.02455,0)\ \mathrm{km\,s^{-1}}.
-\tag{6.6}
+
 \]</div>
 
 Long integrations of this state can pass through the narrow <span class="math-inline">$L_1$</span> gateway. The geometry explains where passage is possible, while the trajectory determines whether and when it occurs. Because the motion near the gateway is sensitive, a reported transfer time must be accompanied by the integrator, tolerances, event definition, and a convergence study. This turns the former classroom example into a reproducible numerical benchmark.
