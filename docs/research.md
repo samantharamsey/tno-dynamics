@@ -359,6 +359,22 @@ An equilibrium point is stationary in the rotating frame, so its velocity and ac
 
 The <span class="math-inline">$z$</span>-equation implies <span class="math-inline">$z=0$</span>, so all five classical equilibrium points lie in the orbital plane. Three are collinear with the primaries and two form equilateral triangles with them.
 
+
+Figure 5.1 places the five solutions in the normalized Sun–Neptune rotating frame. The full-system view preserves the true mass ratio: the barycenter lies very close to the Sun, Neptune is near <span class="math-inline">$x=1$</span>, and the triangular points complete equilateral triangles with the primaries. At this scale, <span class="math-inline">$L_1$</span>, Neptune, and <span class="math-inline">$L_2$</span> are nearly coincident. The close-up resolves their ordering and shows that the two collinear points bracket Neptune along the rotating <span class="math-inline">$x$</span>-axis.
+
+<figure class="research-figure" id="figure-equilibrium-points-planar">
+  <img
+    src="{{ '/assets/images/research/cr3bp/equilibrium-points-planar.png' | relative_url }}"
+    alt="Two-panel planar map of the five Sun-Neptune equilibrium points, with the complete rotating-frame geometry at left and a close-up of L1, Neptune, and L2 at right."
+    loading="lazy"
+  >
+  <figcaption>
+    <strong>Figure 5.1.</strong> Equilibrium-point locations in the nondimensional Sun–Neptune rotating frame. Panel (a) shows the complete primary geometry and the positions of <span class="math-inline">$L_3$</span>, <span class="math-inline">$L_4$</span>, and <span class="math-inline">$L_5$</span>. Panel (b) enlarges the Neptune neighborhood so that <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> can be distinguished at the true Sun–Neptune mass ratio. Marker sizes are chosen for visibility and are not physical radii.
+  </figcaption>
+</figure>
+
+The distances from Neptune to <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> are of order <span class="math-inline">$\mu^{1/3}$</span>. This scaling explains why a separate close-up is necessary for a small planetary mass parameter: the local equilibrium structure occupies only a few percent of the normalized primary separation even though it controls passage into and out of Neptune's neighborhood.
+
 ### 5.2 Triangular points {#triangular-points}
 
 For an equilibrium with <span class="math-inline">$y\neq0$</span>, the <span class="math-inline">$x$</span>- and <span class="math-inline">$y$</span>-conditions require equal unit distances from the third body to both primaries: <span class="math-inline">$r_1=r_2=1$</span>. The two solutions are
@@ -444,6 +460,28 @@ The corresponding nondimensional equilibrium locations and critical Jacobi const
 | <span class="math-inline">$L_5$</span> | 0.49994851 | -0.86602540 | 2.99994852 |
 
 The slight difference between <span class="math-inline">$C_1$</span> and <span class="math-inline">$C_2$</span> is why the two necks near Neptune do not open at exactly the same slider value.
+
+
+### 5.5 Effective-potential geometry {#equilibrium-potential-geometry}
+
+The equilibrium condition in Eq. (5.1) means that every libration point is a stationary point of <span class="math-inline">$\Omega$</span>. A three-dimensional potential landscape therefore provides a geometric view of the same calculation used to locate the points. Figure 5.2 plots <span class="math-inline">$-\Omega(x,y,0)$</span> rather than <span class="math-inline">$\Omega$</span>, so the singular gravitational terms appear as downward wells in the familiar mechanical-potential convention. This sign reversal is only a visualization choice; the governing equations and Jacobi integral continue to use <span class="math-inline">$\Omega$</span> as defined in Eq. (4.1).
+
+<figure class="research-figure" id="figure-effective-potential-surface">
+  <img
+    src="{{ '/assets/images/research/cr3bp/effective-potential-surface.png' | relative_url }}"
+    alt="Two-panel three-dimensional landscape of the inverted Sun-Neptune effective potential, with all five Lagrange points marked and potential contours projected onto the xy plane."
+    loading="lazy"
+  >
+  <figcaption>
+    <strong>Figure 5.2.</strong> Inverted planar effective potential, <span class="math-inline">$-\Omega(x,y,0)$</span>, for the Sun–Neptune CR3BP. Panel (a) shows the full primary system with all five equilibrium points; panel (b) enlarges Neptune's much smaller potential well and resolves the saddle regions at <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span>. The dashed curves are constant-potential contours projected onto the <span class="math-inline">$xy$</span>-plane. The singular wells and the outer surface are clipped at the displayed vertical range, so the flat lower boundaries and edge cutoffs are plotting choices rather than physical discontinuities.
+  </figcaption>
+</figure>
+
+The projected contours are level sets of <span class="math-inline">$\Omega$</span>; reversing the sign changes their numerical labels but not their locations in the <span class="math-inline">$xy$</span>-plane. Closely spaced contours indicate a large potential gradient, while the stationary points occur where the in-plane gradient vanishes. The full-system panel shows the broad geometry generated primarily by the Sun and the centrifugal term. Neptune's contribution is difficult to distinguish at that scale because <span class="math-inline">$\mu_{SN}\approx5.15\times10^{-5}$</span>, so the close-up displays the same potential over a much smaller spatial interval without changing the underlying mass ratio.
+
+The landscape also clarifies why the collinear points act as gateways. The points <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> lie at saddle regions separating Neptune's local well from the surrounding domain. When a Jacobi level reaches one of these critical values, the corresponding zero-velocity boundary develops a neck at that saddle. This connection between stationary points and changing level-set topology motivates the zero-velocity analysis in Section 6.
+
+The surface should not be interpreted as a complete stability test. Linear stability depends on the eigenvalues of the full rotating-frame variational equations, including the velocity-dependent Coriolis coupling. For the Sun–Neptune mass parameter, <span class="math-inline">$L_4$</span> and <span class="math-inline">$L_5$</span> satisfy the Routh criterion and are linearly stable in the ideal CR3BP, whereas the three collinear points are linearly unstable. The potential landscape reveals the stationary geometry; linearization determines how nearby phase-space trajectories evolve.
 
 ## 6. Zero-velocity surfaces and accessible regions {#zero-velocity-regions}
 
