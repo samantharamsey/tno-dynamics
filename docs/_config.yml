@@ -18,7 +18,7 @@ service_worker: false
 navigation_header:
   - title: Home
     url: /
-  - title: Research
+  - title: Research Journal
     url: /research/
   - title: Interactive Tools
     url: /interactive-tools/

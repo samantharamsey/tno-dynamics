@@ -173,11 +173,13 @@ body {
 .dissertation-shell {
   align-items: flex-start;
   display: grid;
-  gap: 3rem;
-  grid-template-columns: minmax(220px, 260px) minmax(0, 760px);
+  gap: 2.25rem;
+  grid-template-columns: minmax(210px, 240px) minmax(0, 900px);
   justify-content: center;
   margin-bottom: 4rem;
   margin-top: 3rem;
+  max-width: 1280px;
+  width: calc(100% - 2rem);
 }
 
 .dissertation-sidebar {
@@ -237,7 +239,7 @@ body {
 .dissertation-main {
   font-size: 1.02rem;
   line-height: 1.75;
-  max-width: 760px;
+  max-width: 900px;
   min-width: 0;
 }
 
@@ -354,6 +356,16 @@ body {
   color: var(--night);
 }
 
+.dissertation-main ol,
+.dissertation-main ul {
+  margin-left: .25rem;
+  padding-left: 1.75rem;
+}
+
+.dissertation-main li {
+  padding-left: .3rem;
+}
+
 .dissertation-main li + li {
   margin-top: .35rem;
 }
@@ -380,7 +392,7 @@ body {
 }
 
 .research-figure--compact {
-  max-width: 640px;
+  max-width: 520px;
 }
 
 .research-figure img {

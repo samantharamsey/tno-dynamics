@@ -1,20 +1,20 @@
 ---
-title: Research
+title: Research Journal
 layout: research
 math: true
 feature_text: |
-  # Research
-  A living dissertation on dynamical structures in the outer Solar System
+  # Research Journal
+  Notes, derivations, and computational work in outer Solar System dynamics
 ---
 
 ## 1. Research overview {#research-overview}
 
-Trans-Neptunian objects preserve information about the formation and evolution of the outer Solar System. This living document develops the mathematical and computational framework used to study the structures that organize their motion, with particular emphasis on the circular restricted three-body problem (CR3BP), zero-velocity geometry, periodic orbits, and transport near Neptune.
+Trans-Neptunian objects preserve information about the formation and evolution of the outer Solar System. This research journal develops the mathematical and computational framework used to study the structures that organize their motion, with particular emphasis on the circular restricted three-body problem (CR3BP), zero-velocity geometry, periodic orbits, and transport near Neptune.
 
 The presentation is intentionally cumulative. Each model begins with its assumptions and reference frames, proceeds through the governing equations and nondimensionalization, and ends with numerical implementation and validation. This makes the derivations auditable and creates a direct path from the mathematics to the interactive tools and research code.
 
 <div class="research-note">
-  <strong>Document status.</strong> This is a working research document. The CR3BP foundations below have been developed from earlier course notes and rewritten for this project; later chapters will add references, reproducible figures, periodic-orbit families, invariant manifolds, and results specific to trans-Neptunian dynamics.
+  <strong>Journal status.</strong> This is a working research journal. The CR3BP foundations below have been developed from earlier course notes and rewritten for this project; later chapters will add references, reproducible figures, periodic-orbit families, invariant manifolds, and results specific to trans-Neptunian dynamics.
 </div>
 
 ## 2. Circular restricted three-body model {#cr3bp-model}
@@ -25,11 +25,11 @@ Consider two finite masses, <span class="math-inline">$m_1$</span> and <span cla
 
 The circular restricted three-body problem makes the following assumptions:
 
-1. each primary is a point mass, or equivalently has a spherically symmetric exterior gravity field;
-2. the third body is massless in the dynamical sense described above;
-3. the primaries follow circular Keplerian orbits about their common barycenter;
-4. the separation between the primaries and their angular speed are constant;
-5. no forces other than the gravity of the two primaries are included.
+1. Each primary is a point mass, or equivalently has a spherically symmetric exterior gravity field;
+2. The third body is massless in the dynamical sense described above;
+3. The primaries follow circular Keplerian orbits about their common barycenter;
+4. The separation between the primaries and their angular speed are constant;
+5. No forces other than the gravity of the two primaries are included.
 
 The first two assumptions do more than declare that the third body is small. They **decouple** the problem. In the general three-body problem, the motion of every body changes the gravitational field seen by the other two, so all three trajectories must be solved simultaneously. In the restricted problem, the two primaries form a closed two-body subsystem whose motion is known in advance. Their positions can therefore be treated as prescribed inputs to the differential equation for the third body.
 
@@ -50,7 +50,7 @@ Let <span class="math-inline">$\mathcal{I}=(X,Y,Z)$</span> denote an inertial ba
 
 \]</div>
 
-where <span class="math-inline">$n$</span> is the mean motion of the primaries. The rotating <span class="math-inline">$x$</span>-axis always points from <span class="math-inline">$m_1$</span> toward <span class="math-inline">$m_2$</span>, the <span class="math-inline">$y$</span>-axis completes a right-handed basis in the orbital plane, and the <span class="math-inline">$z$</span>-axis is normal to that plane.
+Here, <span class="math-inline">$n$</span> is the mean motion of the primaries. The rotating <span class="math-inline">$x$</span>-axis always points from <span class="math-inline">$m_1$</span> toward <span class="math-inline">$m_2$</span>, the <span class="math-inline">$y$</span>-axis completes a right-handed basis in the orbital plane, and the <span class="math-inline">$z$</span>-axis is normal to that plane.
 
 These choices are made to remove motion that is already understood. A barycentric origin removes the translational motion of the primary pair. Aligning the rotating <span class="math-inline">$x$</span>-axis with the primaries removes their orbital motion from the coordinate description. In this frame the primaries become fixed points, so changes in the third body's coordinates describe motion relative to the gravitational geometry rather than the overall revolution of the system.
 
@@ -101,7 +101,7 @@ For a third body at <span class="math-inline">$\widetilde{\mathbf{r}}=(\widetild
 
 \]</div>
 
-with magnitudes
+Their magnitudes are
 
 <div class="equation-block">\[
 \widetilde{\rho}_1
@@ -254,7 +254,7 @@ In normalized coordinates the primaries are fixed at
 
 \]</div>
 
-and the distances to the third body are
+The distances to the third body are
 
 <div class="equation-block">\[
 r_1=\sqrt{(x+\mu)^2+y^2+z^2},
@@ -309,7 +309,7 @@ The first term is the centrifugal contribution and the remaining terms are gravi
 
 The word *effective* matters. <span class="math-inline">$\Omega$</span> packages the position-dependent gravitational and centrifugal contributions into one scalar function, but it does not include the velocity-dependent Coriolis acceleration. That term cannot be represented by the gradient of a scalar potential. The compact form works because the Coriolis contribution is written separately on the left side of the equations.
 
-where subscripts denote partial derivatives.
+Here, subscripts denote partial derivatives.
 
 ### 4.2 Derivation of the integral {#jacobi-derivation}
 
@@ -332,7 +332,7 @@ Both sides are total derivatives,
 
 The cancellation of the Coriolis terms has a physical interpretation: Coriolis acceleration is perpendicular to the rotating-frame velocity and therefore changes the direction of motion without directly changing the squared speed. This orthogonality is what permits a conserved scalar even though velocity appears explicitly in the equations.
 
-so integration gives the Jacobi constant
+Integrating gives the Jacobi constant
 
 <div class="equation-block">\[
 C=2\Omega(x,y,z)
@@ -360,20 +360,7 @@ An equilibrium point is stationary in the rotating frame, so its velocity and ac
 The <span class="math-inline">$z$</span>-equation implies <span class="math-inline">$z=0$</span>, so all five classical equilibrium points lie in the orbital plane. Three are collinear with the primaries and two form equilateral triangles with them.
 
 
-Figure 5.1 places the five solutions in the normalized Sun–Neptune rotating frame. The full-system view preserves the true mass ratio: the barycenter lies very close to the Sun, Neptune is near <span class="math-inline">$x=1$</span>, and the triangular points complete equilateral triangles with the primaries. At this scale, <span class="math-inline">$L_1$</span>, Neptune, and <span class="math-inline">$L_2$</span> are nearly coincident. The close-up resolves their ordering and shows that the two collinear points bracket Neptune along the rotating <span class="math-inline">$x$</span>-axis.
 
-<figure class="research-figure" id="figure-equilibrium-points-planar">
-  <img
-    src="{{ '/assets/images/research/cr3bp/equilibrium-points-planar.png' | relative_url }}"
-    alt="Two-panel planar map of the five Sun-Neptune equilibrium points, with the complete rotating-frame geometry at left and a close-up of L1, Neptune, and L2 at right."
-    loading="lazy"
-  >
-  <figcaption>
-    <strong>Figure 5.1.</strong> Equilibrium-point locations in the nondimensional Sun–Neptune rotating frame. Panel (a) shows the complete primary geometry and the positions of <span class="math-inline">$L_3$</span>, <span class="math-inline">$L_4$</span>, and <span class="math-inline">$L_5$</span>. Panel (b) enlarges the Neptune neighborhood so that <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> can be distinguished at the true Sun–Neptune mass ratio. Marker sizes are chosen for visibility and are not physical radii.
-  </figcaption>
-</figure>
-
-The distances from Neptune to <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> are of order <span class="math-inline">$\mu^{1/3}$</span>. This scaling explains why a separate close-up is necessary for a small planetary mass parameter: the local equilibrium structure occupies only a few percent of the normalized primary separation even though it controls passage into and out of Neptune's neighborhood.
 
 ### 5.2 Triangular points {#triangular-points}
 
@@ -459,6 +446,21 @@ The corresponding nondimensional equilibrium locations and critical Jacobi const
 | <span class="math-inline">$L_4$</span> | 0.49994851 | 0.86602540 | 2.99994852 |
 | <span class="math-inline">$L_5$</span> | 0.49994851 | -0.86602540 | 2.99994852 |
 
+Figure 5.1 places the five solutions in the normalized Sun–Neptune rotating frame. The full-system view preserves the true mass ratio: the barycenter lies very close to the Sun, Neptune is near <span class="math-inline">$x=1$</span>, and the triangular points complete equilateral triangles with the primaries. At this scale, <span class="math-inline">$L_1$</span>, Neptune, and <span class="math-inline">$L_2$</span> are nearly coincident. The close-up resolves their ordering and shows that the two collinear points bracket Neptune along the rotating <span class="math-inline">$x$</span>-axis.
+
+<figure class="research-figure" id="figure-equilibrium-points-planar">
+  <img
+    src="{{ '/assets/images/research/cr3bp/equilibrium-points-planar.png' | relative_url }}"
+    alt="Two-panel planar map of the five Sun-Neptune equilibrium points, with the complete rotating-frame geometry at left and a close-up of L1, Neptune, and L2 at right."
+    loading="lazy"
+  >
+  <figcaption>
+    <strong>Figure 5.1.</strong> Equilibrium-point locations in the nondimensional Sun–Neptune rotating frame. Panel (a) shows the complete primary geometry and the positions of <span class="math-inline">$L_3$</span>, <span class="math-inline">$L_4$</span>, and <span class="math-inline">$L_5$</span>. Panel (b) enlarges the Neptune neighborhood so that <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> can be distinguished at the true Sun–Neptune mass ratio. Marker sizes are chosen for visibility and are not physical radii.
+  </figcaption>
+</figure>
+
+The distances from Neptune to <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> are of order <span class="math-inline">$\mu^{1/3}$</span>. This scaling explains why a separate close-up is necessary for a small planetary mass parameter: the local equilibrium structure occupies only a few percent of the normalized primary separation even though it controls passage into and out of Neptune's neighborhood.
+
 The slight difference between <span class="math-inline">$C_1$</span> and <span class="math-inline">$C_2$</span> produces two distinct but closely spaced critical levels. Their geometric significance becomes clear once the planar zero-velocity curves are introduced in Section 5.6.
 
 
@@ -528,7 +530,7 @@ v^2=\dot{x}^2+\dot{y}^2+\dot{z}^2
 \tag{5.5}
 \]</div>
 
-and the three-dimensional boundary of the accessible region is
+The three-dimensional boundary of the accessible region is
 
 <div class="equation-block">\[
 \mathcal S_C
@@ -603,11 +605,11 @@ The maximum and root-mean-square values of <span class="math-inline">$\Delta C$<
 
 A defensible convergence study therefore repeats the propagation with progressively tighter relative and absolute tolerances and compares:
 
-- the complete state history over a shared time interval;
-- event times such as crossings of a chosen surface;
-- the maximum Jacobi drift;
-- the result under a reduced maximum step size; and
-- agreement between independent integration methods when practical.
+- The complete state history over a shared time interval;
+- Event times such as crossings of a chosen surface;
+- The maximum Jacobi drift;
+- The result under a reduced maximum step size; and
+- Agreement between independent integration methods when practical.
 
 The tightest tolerance is not automatically the best scientific choice. A tolerance is accepted when the quantities used in the analysis have converged while the computational cost remains reasonable.
 
@@ -647,13 +649,13 @@ The “bouncing” appearance seen when such trajectories approach a zero-veloci
 
 Before a trajectory or surface is used in the research, the implementation is checked against the following conditions:
 
-1. the primary positions satisfy the barycenter relation;
-2. the computed equilibrium points make <span class="math-inline">$\lVert\nabla\Omega\rVert$</span> numerically zero;
-3. the Jacobi constant at each equilibrium matches the reported critical value;
-4. the zero-velocity boundary satisfies <span class="math-inline">$2\Omega-C=0$</span> to the extraction tolerance;
-5. dimensional and nondimensional states round-trip through the unit conversion;
+1. The primary positions satisfy the barycenter relation;
+2. The computed equilibrium points make <span class="math-inline">$\lVert\nabla\Omega\rVert$</span> numerically zero;
+3. The Jacobi constant at each equilibrium matches the reported critical value;
+4. The zero-velocity boundary satisfies <span class="math-inline">$2\Omega-C=0$</span> to the extraction tolerance;
+5. Dimensional and nondimensional states round-trip through the unit conversion;
 6. Jacobi drift and state histories converge as integration tolerances are tightened; and
-7. coordinate orientation and sign conventions agree across equations, code, and figures.
+7. Coordinate orientation and sign conventions agree across equations, code, and figures.
 
 ## 7. Role in trans-Neptunian dynamics {#tno-connection}
 
@@ -663,13 +665,13 @@ The model is not a complete representation of the outer Solar System. Neptune's 
 
 Planned extensions of this chapter include:
 
-- linearization and stability near the five equilibrium points;
-- differential correction and continuation of periodic-orbit families;
-- state-transition matrices and monodromy analysis;
-- stable and unstable invariant manifolds;
-- surface-of-section and resonance diagnostics;
-- comparison with higher-fidelity ephemeris models; and
-- direct links from each derivation to reproducible code, figures, and data.
+- Linearization and stability near the five equilibrium points;
+- Differential correction and continuation of periodic-orbit families;
+- State-transition matrices and monodromy analysis;
+- Stable and unstable invariant manifolds;
+- Surface-of-section and resonance diagnostics;
+- Comparison with higher-fidelity ephemeris models; and
+- Direct links from each derivation to reproducible code, figures, and data.
 
 ## 8. Research log {#research-log}
 

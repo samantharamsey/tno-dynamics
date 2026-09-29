@@ -10,7 +10,7 @@ feature_text: |
   <p class="eyebrow">Trans-Neptunian dynamics · CR3BP · orbital transport</p>
   <h2>Research at the boundary of celestial mechanics and computation</h2>
   <p>I study the dynamical structures that shape motion beyond Neptune, using analytical models, numerical experiments, and interactive visualization.</p>
-  <p><a class="button button--primary" href="{{ '/research/' | relative_url }}">Explore the research</a> <a class="button button--quiet" href="{{ '/interactive-tools/' | relative_url }}">Open interactive tools</a></p>
+  <p><a class="button button--primary" href="{{ '/research/' | relative_url }}">Open the research journal</a> <a class="button button--quiet" href="{{ '/interactive-tools/' | relative_url }}">Open interactive tools</a></p>
 </div>
 
 <div class="research-grid">
