@@ -380,55 +380,20 @@ leaving
 
 \]</div>
 
-The cancellation also has a physical meaning. The instantaneous power per unit mass supplied by an acceleration <span class="math-inline">$\mathbf{a}$</span> is <span class="math-inline">$\mathbf{a}\mathbin{\cdot}\mathbf{v}$</span>. Coriolis acceleration is
+This cancellation is also physically expected. Coriolis acceleration is perpendicular to the rotating-frame velocity, so it can redirect the motion but cannot directly change the speed or kinetic energy. This is the meaning of the statement that the Coriolis force “does no work.”
 
-<div class="equation-block">\[
-\mathbf{a}_{\mathrm{cor}}
-=-2\boldsymbol{\omega}\times\mathbf{v}.
-\]</div>
-
-A cross product is perpendicular to <span class="math-inline">$\mathbf{v}$</span>, so
-
-<div class="equation-block">\[
-\mathbf{a}_{\mathrm{cor}}\mathbin{\cdot}\mathbf{v}=0.
-\]</div>
-
-This is what it means to say that Coriolis acceleration does no work: it can turn the rotating-frame velocity vector, but it cannot directly change the speed or kinetic energy.
-
-Each side of the remaining equation is now recognizable as a total derivative. On the left,
-
-<div class="equation-block">\[
-\dot{x}\ddot{x}+\dot{y}\ddot{y}+\dot{z}\ddot{z}
-=\frac{d}{d\tau}
-\left[\frac{1}{2}(\dot{x}^2+\dot{y}^2+\dot{z}^2)\right].
-\]</div>
-
-On the right, the multivariable chain rule gives
-
-<div class="equation-block">\[
-\Omega_x\dot{x}+\Omega_y\dot{y}+\Omega_z\dot{z}
-=\frac{d\Omega}{d\tau}.
-\]</div>
-
-Therefore,
+The remaining terms are total derivatives: the left side is the derivative of one-half the squared speed, and the right side is the derivative of <span class="math-inline">$\Omega$</span> along the trajectory. Thus
 
 <div class="equation-block">\[
 \frac{d}{d\tau}
 \left[\frac{1}{2}(\dot{x}^2+\dot{y}^2+\dot{z}^2)\right]
-=\frac{d\Omega}{d\tau}.
-
-\]</div>
-
-Moving both terms to one side shows directly that
-
-<div class="equation-block">\[
+=\frac{d\Omega}{d\tau}
+\quad\Longrightarrow\quad
 \frac{d}{d\tau}
-\left[
-\frac{1}{2}(\dot{x}^2+\dot{y}^2+\dot{z}^2)-\Omega
-\right]=0.
+\left[2\Omega-(\dot{x}^2+\dot{y}^2+\dot{z}^2)\right]=0.
 \]</div>
 
-The quantity in brackets is constant along an unforced CR3BP trajectory. By convention, multiply it by <span class="math-inline">$-2$</span> and define the Jacobi constant
+The expression in the final brackets is therefore constant along an unforced CR3BP trajectory. By convention, it is called the Jacobi constant:
 
 
 <div class="equation-block">\[
