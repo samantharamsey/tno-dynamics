@@ -344,7 +344,7 @@ The CR3BP is autonomous in the rotating frame, and <span class="math-inline">$C$
 
 The Jacobi constant is not the ordinary inertial mechanical energy. It combines kinetic energy, gravitational terms, and the rotational contribution appropriate to this coordinate system. Calling it an energy-like integral is useful, but treating it as inertial energy would obscure the role of the rotating frame.
 
-## 5. Equilibrium points {#equilibrium-points}
+## 5. Equilibrium points and accessible geometry {#equilibrium-points}
 
 ### 5.1 Equilibrium condition {#equilibrium-condition}
 
@@ -459,7 +459,7 @@ The corresponding nondimensional equilibrium locations and critical Jacobi const
 | <span class="math-inline">$L_4$</span> | 0.49994851 | 0.86602540 | 2.99994852 |
 | <span class="math-inline">$L_5$</span> | 0.49994851 | -0.86602540 | 2.99994852 |
 
-The slight difference between <span class="math-inline">$C_1$</span> and <span class="math-inline">$C_2$</span> is why the two necks near Neptune do not open at exactly the same slider value.
+The slight difference between <span class="math-inline">$C_1$</span> and <span class="math-inline">$C_2$</span> produces two distinct but closely spaced critical levels. Their geometric significance becomes clear once the planar zero-velocity curves are introduced in Section 5.6.
 
 
 ### 5.5 Effective-potential geometry {#equilibrium-potential-geometry}
@@ -479,39 +479,72 @@ The equilibrium condition in Eq. (5.1) means that every libration point is a sta
 
 The projected contours are level sets of <span class="math-inline">$\Omega$</span>; reversing the sign changes their numerical labels but not their locations in the <span class="math-inline">$xy$</span>-plane. Closely spaced contours indicate a large potential gradient, while the stationary points occur where the in-plane gradient vanishes. The full-system panel shows the broad geometry generated primarily by the Sun and the centrifugal term. Neptune's contribution is difficult to distinguish at that scale because <span class="math-inline">$\mu_{SN}\approx5.15\times10^{-5}$</span>, so the close-up displays the same potential over a much smaller spatial interval without changing the underlying mass ratio.
 
-The landscape also clarifies why the collinear points act as gateways. The points <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> lie at saddle regions separating Neptune's local well from the surrounding domain. When a Jacobi level reaches one of these critical values, the corresponding zero-velocity boundary develops a neck at that saddle. This connection between stationary points and changing level-set topology motivates the zero-velocity analysis in Section 6.
+The collinear points appear as saddle regions of the effective-potential landscape. That local geometry identifies where changes in connectivity can occur, but it does not by itself determine which regions are accessible for a particular motion. Accessibility depends on the selected Jacobi constant and is established by the planar level sets introduced next.
 
 The surface should not be interpreted as a complete stability test. Linear stability depends on the eigenvalues of the full rotating-frame variational equations, including the velocity-dependent Coriolis coupling. For the Sun–Neptune mass parameter, <span class="math-inline">$L_4$</span> and <span class="math-inline">$L_5$</span> satisfy the Routh criterion and are linearly stable in the ideal CR3BP, whereas the three collinear points are linearly unstable. The potential landscape reveals the stationary geometry; linearization determines how nearby phase-space trajectories evolve.
 
-## 6. Zero-velocity surfaces and accessible regions {#zero-velocity-regions}
+### 5.6 Planar zero-velocity curves and forbidden regions {#zero-velocity-curves}
 
-With the equilibrium locations and their critical Jacobi values established, Eq. (4.5) can now be used to determine how those points control the accessible geometry. Solving for speed gives
-
-<div class="equation-block">\[
-v^2=\dot{x}^2+\dot{y}^2+\dot{z}^2=2\Omega-C.
-\tag{6.1}
-\]</div>
-
-A real trajectory requires <span class="math-inline">$v^2\geq0$</span>. Configuration-space points satisfying <span class="math-inline">$2\Omega<C$</span> are therefore forbidden at that Jacobi constant. The boundary
+The planar CR3BP is obtained by imposing <span class="math-inline">$z=\dot z=0$</span>. With those restrictions, the Jacobi integral in Eq. (4.5) can be solved for the in-plane speed:
 
 <div class="equation-block">\[
-2\Omega(x,y,z)=C
-\tag{6.2}
+v_p^2=\dot{x}^2+\dot{y}^2
+=2\Omega(x,y,0)-C.
+\tag{5.8}
 \]</div>
 
-is the zero-velocity surface. It constrains where a trajectory may travel without prescribing the path or the time required to move between accessible regions.
+Because the squared speed must be nonnegative, a selected value of <span class="math-inline">$C$</span> divides the rotating <span class="math-inline">$xy$</span>-plane into an allowed set and a forbidden set,
 
-At a chosen position, Eq. (6.1) fixes the **magnitude** of the allowable velocity but not its direction. A zero-velocity surface is therefore a boundary in configuration space, not a trajectory and not a material wall. A propagated orbit appears to turn before entering a forbidden region because its speed must approach zero at the boundary and its acceleration redirects the motion.
+<div class="equation-block">\[
+\mathcal A_C
+=\left\{(x,y):2\Omega(x,y,0)\geq C\right\},
+\qquad
+\mathcal F_C
+=\left\{(x,y):2\Omega(x,y,0)<C\right\}.
+\tag{5.9}
+\]</div>
 
-As <span class="math-inline">$C$</span> decreases, necks open at the collinear equilibrium points. These openings change the connectivity of the accessible region and create geometric gateways between neighborhoods of the primaries and the exterior domain. The interactive explorer evaluates this topology for the Sun-Neptune system.
+The boundary between them is the zero-velocity curve,
 
-The order of these openings is determined by the critical values <span class="math-inline">$C_i=2\Omega(L_i)$</span>. For <span class="math-inline">$C>C_i$</span>, the associated neck is closed; when <span class="math-inline">$C$</span> falls through <span class="math-inline">$C_i$</span>, that point joins the accessible set. The threshold reveals whether passage is energetically possible. It does not guarantee that a particular initial condition lies on a trajectory that uses the passage.
+<div class="equation-block">\[
+\Gamma_C
+=\left\{(x,y):2\Omega(x,y,0)=C\right\}.
+\tag{5.10}
+\]</div>
+
+The name describes the instantaneous kinematic condition on the boundary: Eq. (5.8) forces <span class="math-inline">$v_p=0$</span> at every point of <span class="math-inline">$\Gamma_C$</span>. The curve is not itself a trajectory and is not a material wall. It is the boundary of the configuration-space region compatible with the chosen Jacobi constant. Inside <span class="math-inline">$\mathcal F_C$</span>, Eq. (5.8) would require an imaginary speed, so no trajectory with that value of <span class="math-inline">$C$</span> can enter.
+
+This planar construction makes the role of the critical values <span class="math-inline">$C_i=2\Omega(L_i)$</span> precise. A level curve changes topology only when it passes through a stationary point of <span class="math-inline">$\Omega$</span>. For <span class="math-inline">$C>C_i$</span>, the associated passage is closed by a forbidden region. As <span class="math-inline">$C$</span> decreases through <span class="math-inline">$C_i$</span>, the curve touches the equilibrium point and then separates, creating a neck in the allowed set. Thus <span class="math-inline">$L_1$</span> and <span class="math-inline">$L_2$</span> become gateways only after the energy level opens their corresponding necks.
+
+The curve establishes energetic permission, not dynamical transport. A connected allowed region means that passage is possible in configuration space, but a particular initial condition must still have the appropriate phase and velocity direction to pass through the neck. Most allowed states do not automatically follow that route.
+
+### 5.7 Zero-velocity surfaces {#zero-velocity-regions}
+
+The same argument extends to spatial motion. Restoring <span class="math-inline">$z$</span> and all three velocity components gives
+
+<div class="equation-block">\[
+v^2=\dot{x}^2+\dot{y}^2+\dot{z}^2
+=2\Omega(x,y,z)-C,
+\tag{5.11}
+\]</div>
+
+and the three-dimensional boundary of the accessible region is
+
+<div class="equation-block">\[
+\mathcal S_C
+=\left\{(x,y,z):2\Omega(x,y,z)=C\right\}.
+\tag{5.12}
+\]</div>
+
+This boundary is the zero-velocity surface. Its intersection with <span class="math-inline">$z=0$</span> is the zero-velocity curve <span class="math-inline">$\Gamma_C$</span>. At a position inside the accessible volume, Eq. (5.11) fixes the magnitude of the allowable rotating-frame velocity but not its direction. A propagated orbit can therefore approach the boundary, lose speed in its normal direction, and turn back without colliding with a physical object.
+
+As <span class="math-inline">$C$</span> decreases, the planar neck openings extend into three-dimensional passages through the zero-velocity surface. In the Sun–Neptune system the small difference between <span class="math-inline">$C_1$</span> and <span class="math-inline">$C_2$</span> causes the inner and outer Neptune gateways to open at slightly different Jacobi constants. The interactive explorer shows both the global surface and the local Neptune geometry as these thresholds are crossed.
 
 [Open the zero-velocity surface explorer ↗](https://tno-dynamics.onrender.com/){: .button .button--primary }
 
-## 7. Numerical propagation and verification {#numerical-methods}
+## 6. Numerical propagation and verification {#numerical-methods}
 
-### 7.1 First-order state model {#state-model}
+### 6.1 First-order state model {#state-model}
 
 Numerical integrators operate on a first-order system. Define
 
@@ -520,7 +553,7 @@ Numerical integrators operate on a first-order system. Define
 \begin{bmatrix}
 x&y&z&\dot{x}&\dot{y}&\dot{z}
 \end{bmatrix}^{\!T}.
-\tag{7.1}
+\tag{6.1}
 \]</div>
 
 A second-order vector equation is rewritten this way because general-purpose integration algorithms advance a state from its current value and first derivative. Position and velocity are therefore carried together. This also makes event detection, variational equations, and later state-transition-matrix calculations compatible with the same state representation.
@@ -537,12 +570,12 @@ Then
 -2\dot{x}+\Omega_y\\
 \Omega_z
 \end{bmatrix}.
-\tag{7.2}
+\tag{6.2}
 \]</div>
 
 This expression is the common interface between the analytical model and an adaptive numerical integrator.
 
-### 7.2 Dimensional reconstruction {#dimensional-reconstruction}
+### 6.2 Dimensional reconstruction {#dimensional-reconstruction}
 
 Nondimensional results are converted back to physical units with Eq. (3.8). For a primary system with separation <span class="math-inline">$a$</span>, total gravitational parameter <span class="math-inline">$G(m_1+m_2)$</span>, and state <span class="math-inline">$(\mathbf r,\mathbf v)$</span>,
 
@@ -550,18 +583,18 @@ Nondimensional results are converted back to physical units with Eq. (3.8). For 
 \widetilde{\mathbf r}=a\mathbf r,
 \qquad
 \widetilde{\mathbf v}=\sqrt{\frac{G(m_1+m_2)}{a}}\,\mathbf v.
-\tag{7.3}
+\tag{6.3}
 \]</div>
 
 Reporting both normalized and dimensional values prevents scale conversions from becoming hidden implementation details.
 
-### 7.3 Jacobi conservation as a diagnostic {#jacobi-diagnostic}
+### 6.3 Jacobi conservation as a diagnostic {#jacobi-diagnostic}
 
 For an unforced CR3BP trajectory, the computed Jacobi constant should remain equal to its initial value. Define the drift
 
 <div class="equation-block">\[
 \Delta C(\tau)=C(\mathbf X(\tau))-C(\mathbf X(0)).
-\tag{7.4}
+\tag{6.4}
 \]</div>
 
 The analytical model conserves <span class="math-inline">$C$</span> exactly, whereas a numerical solver accumulates truncation and roundoff error. Monitoring the invariant supplies a physics-based diagnostic that is more informative than relying on the solver's internal success flag. A solver can finish successfully and still produce a trajectory whose invariant has drifted enough to cross a narrow dynamical gateway artificially.
@@ -578,7 +611,7 @@ A defensible convergence study therefore repeats the propagation with progressiv
 
 The tightest tolerance is not automatically the best scientific choice. A tolerance is accepted when the quantities used in the analysis have converged while the computational cost remains reasonable.
 
-### 7.4 Benchmark gateway trajectory {#benchmark-trajectory}
+### 6.4 Benchmark gateway trajectory {#benchmark-trajectory}
 
 An Earth-Moon trajectory provides a useful benchmark because the opening near <span class="math-inline">$L_1$</span> is easy to interpret. For
 
@@ -588,7 +621,7 @@ An Earth-Moon trajectory provides a useful benchmark because the opening near <s
 \mathbf r_0=(-0.270,-0.420,0),
 \qquad
 \mathbf v_0=(0.300,-1.000,0),
-\tag{7.5}
+\tag{6.5}
 \]</div>
 
 Eq. (4.5) gives <span class="math-inline">$C_0=3.18647488$</span>. Since this value is slightly below the Earth-Moon <span class="math-inline">$L_1$</span> critical value, the zero-velocity curve contains a narrow gateway connecting the two primary neighborhoods while the outer gateways remain closed.
@@ -603,14 +636,14 @@ With <span class="math-inline">$a=384{,}400\ \mathrm{km}$</span> and <span class
 \qquad
 \widetilde{\mathbf v}_0
 =(0.30736,-1.02455,0)\ \mathrm{km\,s^{-1}}.
-\tag{7.6}
+\tag{6.6}
 \]</div>
 
 Long integrations of this state can pass through the narrow <span class="math-inline">$L_1$</span> gateway. The geometry explains where passage is possible, while the trajectory determines whether and when it occurs. Because the motion near the gateway is sensitive, a reported transfer time must be accompanied by the integrator, tolerances, event definition, and a convergence study. This turns the former classroom example into a reproducible numerical benchmark.
 
 The “bouncing” appearance seen when such trajectories approach a zero-velocity boundary should be interpreted carefully. No collision occurs with the curve. Instead, the kinetic energy available in the rotating frame decreases as the trajectory approaches the boundary, reaches zero in the normal direction, and the gravitational and rotational acceleration turns the state back into the accessible region.
 
-### 7.5 Verification checklist {#verification-checklist}
+### 6.5 Verification checklist {#verification-checklist}
 
 Before a trajectory or surface is used in the research, the implementation is checked against the following conditions:
 
@@ -622,7 +655,7 @@ Before a trajectory or surface is used in the research, the implementation is ch
 6. Jacobi drift and state histories converge as integration tolerances are tightened; and
 7. coordinate orientation and sign conventions agree across equations, code, and figures.
 
-## 8. Role in trans-Neptunian dynamics {#tno-connection}
+## 7. Role in trans-Neptunian dynamics {#tno-connection}
 
 For the Sun-Neptune pair, the CR3BP provides a geometric baseline for studying motion near Neptune's orbit. Its equilibria, periodic orbits, and invariant manifolds organize pathways through phase space and supply a language for discussing temporary capture, resonance transitions, and transport between dynamically distinct regions.
 
@@ -638,6 +671,6 @@ Planned extensions of this chapter include:
 - comparison with higher-fidelity ephemeris models; and
 - direct links from each derivation to reproducible code, figures, and data.
 
-## 9. Research log {#research-log}
+## 8. Research log {#research-log}
 
 The research log will record dated modeling decisions, numerical experiments, unexpected results, and changes in direction. Mature results will move into the formal chapters above while the log preserves how the work developed and why particular methods were adopted.
