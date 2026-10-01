@@ -6,10 +6,11 @@ feature_text: |
   Astrodynamics, spaceflight dynamics, and computational research
 ---
 
-<div class="cv-intro">
-  <p class="eyebrow">Ph.D. student · aerospace engineering</p>
-  <h2>Research and engineering at the intersection of dynamical systems and mission design</h2>
-  <p>I am a Ph.D. student at the University of Tennessee specializing in astrodynamics and spaceflight dynamics. My work combines multibody dynamics, numerical continuation, invariant manifolds, trajectory optimization, and high-performance scientific computing.</p>
+<div class="cv-profile">
+  <div>
+    <p class="cv-profile__name">Samantha Ramsey</p>
+    <p class="cv-profile__role">Ph.D. student in Aerospace Engineering · University of Tennessee</p>
+  </div>
   <p class="cv-links"><a href="mailto:samantharamsey@live.com">Email</a><a href="https://github.com/samantharamsey">GitHub</a></p>
 </div>
 
@@ -140,22 +141,36 @@ feature_text: |
 <div class="cv-grid cv-grid--skills">
   <article class="cv-card">
     <h3>Languages and tools</h3>
-    <p>Python · MATLAB · C/C++ · Git · Bash · LaTeX · Simulink</p>
+    <div class="cv-skill-list">
+      <span>Python</span>
+      <span>MATLAB</span>
+      <span>C/C++</span>
+      <span>Git</span>
+      <span>Bash</span>
+      <span>LaTeX</span>
+      <span>Simulink</span>
+    </div>
   </article>
   <article class="cv-card">
     <h3>Scientific computing</h3>
-    <p>Numerical integration · Differential corrections and targeting · Numerical continuation · Trajectory optimization · Parallel computing and HPC</p>
+    <div class="cv-skill-list">
+      <span>Numerical integration</span>
+      <span>Differential corrections and targeting</span>
+      <span>Numerical continuation</span>
+      <span>Trajectory optimization</span>
+      <span>Parallel computing and HPC</span>
+    </div>
   </article>
   <article class="cv-card">
     <h3>Flight software</h3>
-    <ul class="cv-compact-list">
-      <li>Copernicus</li>
-      <li>Program to Optimize Simulated Trajectories (POST)</li>
-      <li>General Mission Analysis Tool (GMAT)</li>
-      <li>Mission Analysis Environment (MAnE)</li>
-      <li>Systems Tool Kit (STK)</li>
-      <li>Evolutionary Mission Trajectory Generator (EMTG)</li>
-    </ul>
+    <div class="cv-skill-list">
+      <span>Copernicus</span>
+      <span>Program to Optimize Simulated Trajectories (POST)</span>
+      <span>General Mission Analysis Tool (GMAT)</span>
+      <span>Mission Analysis Environment (MAnE)</span>
+      <span>Systems Tool Kit (STK)</span>
+      <span>Evolutionary Mission Trajectory Generator (EMTG)</span>
+    </div>
   </article>
 </div>
 
