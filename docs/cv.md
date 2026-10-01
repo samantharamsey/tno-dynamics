@@ -12,7 +12,23 @@ feature_text: |
   <p class="cv-links"><a href="mailto:samantharamsey@live.com">Email</a><a href="https://github.com/samantharamsey">GitHub</a></p>
 </div>
 
-## Education
+<div class="cv-shell">
+  <aside class="cv-sidebar" aria-label="CV sections">
+    <nav class="cv-outline">
+      <p class="outline-label">Curriculum vitae</p>
+      <p class="outline-title">Sections</p>
+      <ol>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#engineering-experience">Engineering experience</a></li>
+        <li><a href="#research-and-teaching">Research and teaching</a></li>
+        <li><a href="#technical-skills">Technical skills</a></li>
+        <li><a href="#certifications-and-awards">Certifications and awards</a></li>
+      </ol>
+    </nav>
+  </aside>
+  <div class="cv-main" markdown="1">
+
+## Education {#education}
 
 <div class="cv-grid cv-grid--education">
   <article class="cv-card">
@@ -35,7 +51,55 @@ feature_text: |
   </article>
 </div>
 
-## Research and teaching
+## Engineering experience {#engineering-experience}
+
+<article class="cv-entry">
+  <header class="cv-entry__header">
+    <div>
+      <h3>Senior Engineering Intern</h3>
+      <p class="cv-organization">Lockheed Martin Space</p>
+    </div>
+    <p class="cv-date">May 2021–present · Littleton, Colorado</p>
+  </header>
+  <ul>
+    <li>Developing multibody trajectory-design software for libration-point missions using invariant-manifold transfers.</li>
+    <li>Built numerical tools for periodic-orbit family generation, crossing-event management, trajectory propagation, and stability characterization in multibody dynamical models.</li>
+    <li>Implemented methods to transform and analyze invariant-manifold trajectories between Earth–Moon and Sun–Earth multibody models for mission-design applications.</li>
+    <li>Designed trajectories to near-Earth objects for mission-concept development and proposal trade studies.</li>
+    <li>Established an HPC cluster for large-scale parallel trajectory trade studies and created a Python wrapper for iterative EMTG trajectory solving.</li>
+  </ul>
+</article>
+
+<article class="cv-entry">
+  <header class="cv-entry__header">
+    <div>
+      <h3>SLS Guidance Intern</h3>
+      <p class="cv-organization">Jacobs Space Exploration Group</p>
+    </div>
+    <p class="cv-date">May–August 2020 · Marshall Space Flight Center, Alabama</p>
+  </header>
+  <ul>
+    <li>Advanced a closed-loop guidance, navigation, and control algorithm for Space Launch System mission analysis.</li>
+    <li>Derived an analytical insertion flight-path-angle expression that increased nominal insertion mass for SLS Block 1B Artemis III+ mission architectures.</li>
+    <li>Automated Monte Carlo analysis in Python to evaluate guidance performance across large simulation sets.</li>
+  </ul>
+</article>
+
+<article class="cv-entry">
+  <header class="cv-entry__header">
+    <div>
+      <h3>Trajectory Intern</h3>
+      <p class="cv-organization">Bevilacqua Research Corporation</p>
+    </div>
+    <p class="cv-date">May–August 2019 · Marshall Space Flight Center, Alabama</p>
+  </header>
+  <ul>
+    <li>Formulated analytical celestial-body motion models to predict Copernicus initial conditions and identify potential launch windows from synodic periods.</li>
+    <li>Contributed trajectory-optimization trades and mission-design analysis during the Global Trajectory Optimization Competition.</li>
+  </ul>
+</article>
+
+## Research and teaching {#research-and-teaching}
 
 <article class="cv-entry">
   <header class="cv-entry__header">
@@ -86,55 +150,7 @@ feature_text: |
   </ul>
 </article>
 
-## Engineering experience
-
-<article class="cv-entry">
-  <header class="cv-entry__header">
-    <div>
-      <h3>Senior Engineering Intern</h3>
-      <p class="cv-organization">Lockheed Martin Space</p>
-    </div>
-    <p class="cv-date">May 2021–present · Littleton, Colorado</p>
-  </header>
-  <ul>
-    <li>Developing multibody trajectory-design software for libration-point missions using invariant-manifold transfers.</li>
-    <li>Built numerical tools for periodic-orbit family generation, crossing-event management, trajectory propagation, and stability characterization in multibody dynamical models.</li>
-    <li>Implemented methods to transform and analyze invariant-manifold trajectories between Earth–Moon and Sun–Earth multibody models for mission-design applications.</li>
-    <li>Designed trajectories to near-Earth objects for mission-concept development and proposal trade studies.</li>
-    <li>Established an HPC cluster for large-scale parallel trajectory trade studies and created a Python wrapper for iterative EMTG trajectory solving.</li>
-  </ul>
-</article>
-
-<article class="cv-entry">
-  <header class="cv-entry__header">
-    <div>
-      <h3>SLS Guidance Intern</h3>
-      <p class="cv-organization">Jacobs Space Exploration Group</p>
-    </div>
-    <p class="cv-date">May–August 2020 · Marshall Space Flight Center, Alabama</p>
-  </header>
-  <ul>
-    <li>Advanced a closed-loop guidance, navigation, and control algorithm for Space Launch System mission analysis.</li>
-    <li>Derived an analytical insertion flight-path-angle expression that increased nominal insertion mass for SLS Block 1B Artemis III+ mission architectures.</li>
-    <li>Automated Monte Carlo analysis in Python to evaluate guidance performance across large simulation sets.</li>
-  </ul>
-</article>
-
-<article class="cv-entry">
-  <header class="cv-entry__header">
-    <div>
-      <h3>Trajectory Intern</h3>
-      <p class="cv-organization">Bevilacqua Research Corporation</p>
-    </div>
-    <p class="cv-date">May–August 2019 · Marshall Space Flight Center, Alabama</p>
-  </header>
-  <ul>
-    <li>Formulated analytical celestial-body motion models to predict Copernicus initial conditions and identify potential launch windows from synodic periods.</li>
-    <li>Contributed trajectory-optimization trades and mission-design analysis during the Global Trajectory Optimization Competition.</li>
-  </ul>
-</article>
-
-## Technical skills
+## Technical skills {#technical-skills}
 
 <div class="cv-grid cv-grid--skills">
   <article class="cv-card">
@@ -151,7 +167,7 @@ feature_text: |
   </article>
 </div>
 
-## Certifications and awards
+## Certifications and awards {#certifications-and-awards}
 
 <div class="cv-grid cv-grid--recognition">
   <article class="cv-card">
@@ -172,4 +188,7 @@ feature_text: |
       <li>AIAA Diversity Scholar, 2019</li>
     </ul>
   </article>
+</div>
+
+  </div>
 </div>

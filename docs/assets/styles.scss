@@ -561,3 +561,97 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.cv-shell {
+  align-items: flex-start;
+  display: grid;
+  gap: 2.25rem;
+  grid-template-columns: minmax(175px, 210px) minmax(0, 1fr);
+  margin: 2.5rem auto 4rem;
+  max-width: 1280px;
+}
+
+.cv-outline {
+  border-left: 3px solid var(--violet);
+  padding: .4rem 0 .4rem 1.1rem;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.cv-outline ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cv-outline li + li {
+  margin-top: .55rem;
+}
+
+.cv-outline a {
+  color: var(--muted);
+  font-size: .84rem;
+  text-decoration: none;
+}
+
+.cv-outline a:hover,
+.cv-outline a:focus {
+  color: var(--violet-dark);
+}
+
+.cv-main {
+  min-width: 0;
+}
+
+.cv-main > h2:first-child {
+  margin-top: 0;
+}
+
+.cv-entry {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  margin: 0;
+  padding: 1.5rem 0;
+}
+
+.cv-main > h2 + .cv-entry {
+  padding-top: .35rem;
+}
+
+.cv-entry__header {
+  border-bottom: 0;
+  margin-bottom: .65rem;
+  padding-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .cv-shell {
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  .cv-outline {
+    background: var(--mist);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--violet);
+    padding: 1rem 1.2rem;
+    position: static;
+  }
+
+  .cv-outline ol {
+    column-gap: 2rem;
+    columns: 2;
+  }
+
+  .cv-outline li {
+    break-inside: avoid;
+  }
+}
+
+@media (max-width: 560px) {
+  .cv-outline ol {
+    columns: 1;
+  }
+}
