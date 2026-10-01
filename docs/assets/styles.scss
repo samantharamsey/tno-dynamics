@@ -571,6 +571,10 @@ body {
   max-width: 1280px;
 }
 
+.cv-sidebar {
+  align-self: stretch;
+}
+
 .cv-outline {
   border-left: 3px solid var(--violet);
   padding: .4rem 0 .4rem 1.1rem;
