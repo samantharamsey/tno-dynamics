@@ -21,19 +21,28 @@ feature_text: |
     <p class="cv-date">2025–2029 expected</p>
     <h3>Ph.D. in Aerospace Engineering</h3>
     <p class="cv-organization">University of Tennessee</p>
-    <p>Astrodynamics and spaceflight dynamics · GPA: 4.00/4.00</p>
+    <div class="cv-degree-details">
+      <p class="cv-degree-focus">Astrodynamics and spaceflight dynamics</p>
+      <p class="cv-gpa">GPA: 4.00/4.00</p>
+    </div>
   </article>
   <article class="cv-card">
     <p class="cv-date">2022–2025</p>
     <h3>M.S. in Astrodynamics</h3>
     <p class="cv-organization">Purdue University</p>
-    <p>Minor in Controls · GPA: 3.23/4.00</p>
+    <div class="cv-degree-details">
+      <p class="cv-degree-focus">Minor in Controls</p>
+      <p class="cv-gpa">GPA: 3.23/4.00</p>
+    </div>
   </article>
   <article class="cv-card">
     <p class="cv-date">2018–2022</p>
     <h3>B.S. in Aerospace Engineering</h3>
     <p class="cv-organization">University of Tennessee</p>
-    <p>Minor in English Literature · GPA: 3.66/4.00</p>
+    <div class="cv-degree-details">
+      <p class="cv-degree-focus">Minor in English Literature</p>
+      <p class="cv-gpa">GPA: 3.66/4.00</p>
+    </div>
   </article>
 </div>
 
@@ -179,20 +188,20 @@ feature_text: |
 <div class="cv-grid cv-grid--recognition">
   <article class="cv-card">
     <h3>Certifications</h3>
-    <ul>
-      <li>STK Fundamentals, Level I</li>
-      <li>STK Master, Level II</li>
-      <li>NVIDIA GPU-Accelerated Data Science with RAPIDS</li>
-      <li>NVIDIA GPU-Accelerated Computing with CUDA</li>
-    </ul>
+    <div class="cv-skill-list">
+      <span>STK Fundamentals, Level I</span>
+      <span>STK Master, Level II</span>
+      <span>NVIDIA GPU-Accelerated Data Science with RAPIDS</span>
+      <span>NVIDIA GPU-Accelerated Computing with CUDA</span>
+    </div>
   </article>
   <article class="cv-card">
     <h3>Awards</h3>
-    <ul>
-      <li>Tickle College of Engineering Leadership Scholarship</li>
-      <li>Dean's List, all semesters</li>
-      <li>VandyHacks IV “Code a Masterpiece” winner</li>
-      <li>AIAA Diversity Scholar, 2019</li>
-    </ul>
+    <div class="cv-skill-list">
+      <span>Tickle College of Engineering Leadership Scholarship</span>
+      <span>Dean's List, all semesters</span>
+      <span>VandyHacks IV “Code a Masterpiece” winner</span>
+      <span>AIAA Diversity Scholar, 2019</span>
+    </div>
   </article>
 </div>

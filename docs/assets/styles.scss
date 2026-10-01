@@ -580,9 +580,10 @@ body {
 }
 
 .cv-profile__name {
-  color: var(--night);
-  font-size: 1.35rem;
+  color: var(--violet-dark);
+  font-size: 1.7rem;
   font-weight: 700;
+  line-height: 1.2;
 }
 
 .cv-profile__role {
@@ -611,6 +612,29 @@ body {
 .cv-grid--education .cv-card h3 {
   font-size: 1.3rem;
   line-height: 1.35;
+}
+
+.cv-grid--education .cv-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cv-grid--education .cv-organization {
+  min-height: 3.2rem;
+}
+
+.cv-degree-details {
+  display: grid;
+  grid-template-rows: minmax(3.1rem, auto) auto;
+  margin-top: auto;
+}
+
+.cv-degree-details p {
+  margin-bottom: 0;
+}
+
+.cv-gpa {
+  align-self: end;
 }
 
 .cv-entry {
@@ -660,11 +684,13 @@ body {
   line-height: 1.35;
 }
 
-.cv-grid--skills .cv-card {
+.cv-grid--skills .cv-card,
+.cv-grid--recognition .cv-card {
   padding: 1.1rem 1.2rem;
 }
 
-.cv-grid--skills .cv-card h3 {
+.cv-grid--skills .cv-card h3,
+.cv-grid--recognition .cv-card h3 {
   font-size: 1.18rem;
   line-height: 1.3;
   margin-bottom: .7rem;
@@ -679,5 +705,20 @@ body {
     align-items: flex-start;
     flex-direction: column;
     gap: .7rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .cv-grid--education .cv-organization,
+  .cv-degree-details {
+    min-height: 0;
+  }
+
+  .cv-degree-details {
+    grid-template-rows: auto auto;
+  }
+
+  .cv-gpa {
+    margin-top: .25rem;
   }
 }
