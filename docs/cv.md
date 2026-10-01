@@ -1,5 +1,6 @@
 ---
 title: CV
+layout: cv
 feature_text: |
   # Curriculum vitae
   Astrodynamics, spaceflight dynamics, and computational research
@@ -11,22 +12,6 @@ feature_text: |
   <p>I am a Ph.D. student at the University of Tennessee specializing in astrodynamics and spaceflight dynamics. My work combines multibody dynamics, numerical continuation, invariant manifolds, trajectory optimization, and high-performance scientific computing.</p>
   <p class="cv-links"><a href="mailto:samantharamsey@live.com">Email</a><a href="https://github.com/samantharamsey">GitHub</a></p>
 </div>
-
-<div class="cv-shell">
-  <aside class="cv-sidebar" aria-label="CV sections">
-    <nav class="cv-outline">
-      <p class="outline-label">Curriculum vitae</p>
-      <p class="outline-title">Sections</p>
-      <ol>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#engineering-experience">Engineering experience</a></li>
-        <li><a href="#research-and-teaching">Research and teaching</a></li>
-        <li><a href="#technical-skills">Technical skills</a></li>
-        <li><a href="#certifications-and-awards">Certifications and awards</a></li>
-      </ol>
-    </nav>
-  </aside>
-  <div class="cv-main" markdown="1">
 
 ## Education {#education}
 
@@ -163,7 +148,14 @@ feature_text: |
   </article>
   <article class="cv-card">
     <h3>Flight software</h3>
-    <p>Copernicus · POST · GMAT · MAnE · STK · EMTG</p>
+    <ul class="cv-compact-list">
+      <li>Copernicus</li>
+      <li>Program to Optimize Simulated Trajectories (POST)</li>
+      <li>General Mission Analysis Tool (GMAT)</li>
+      <li>Mission Analysis Environment (MAnE)</li>
+      <li>Systems Tool Kit (STK)</li>
+      <li>Evolutionary Mission Trajectory Generator (EMTG)</li>
+    </ul>
   </article>
 </div>
 
@@ -188,7 +180,4 @@ feature_text: |
       <li>AIAA Diversity Scholar, 2019</li>
     </ul>
   </article>
-</div>
-
-  </div>
 </div>

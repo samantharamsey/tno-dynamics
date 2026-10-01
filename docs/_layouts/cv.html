@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+{% include site-header.html %}
+
+<div class="dissertation-shell cv-shell container">
+  <aside class="dissertation-sidebar" aria-label="CV sections">
+    <nav class="dissertation-outline">
+      <p class="outline-label">Curriculum vitae</p>
+      <p class="outline-title">Sections</p>
+      <ol>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#engineering-experience">Engineering experience</a></li>
+        <li><a href="#research-and-teaching">Research and teaching</a></li>
+        <li><a href="#technical-skills">Technical skills</a></li>
+        <li><a href="#certifications-and-awards">Certifications and awards</a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="dissertation-main cv-main typeset">
+    {{ content }}
+  </main>
+</div>
+
+{% include site-footer.html %}
