@@ -413,3 +413,151 @@ body {
 .research-figure figcaption strong {
   color: var(--night);
 }
+
+.cv-intro,
+.publications-intro {
+  margin: 1.5rem auto 3rem;
+  max-width: 820px;
+  text-align: center;
+}
+
+.cv-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.2rem;
+}
+
+.cv-links a {
+  color: var(--violet-dark);
+  font-weight: 700;
+}
+
+.cv-grid {
+  display: grid;
+  gap: 1rem;
+  margin: 1.25rem 0 3rem;
+}
+
+.cv-grid--education,
+.cv-grid--skills {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cv-grid--recognition {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cv-card,
+.cv-entry,
+.publication-entry {
+  background: var(--mist);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.cv-card {
+  padding: 1.35rem;
+}
+
+.cv-card h3,
+.cv-entry h3,
+.publication-entry h3 {
+  margin-top: 0;
+}
+
+.cv-card p:last-child,
+.cv-card ul:last-child,
+.cv-entry ul:last-child,
+.publication-entry p:last-child {
+  margin-bottom: 0;
+}
+
+.cv-entry {
+  margin: 1.25rem 0;
+  padding: 1.4rem 1.5rem;
+}
+
+.cv-entry__header {
+  align-items: flex-start;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: .8rem;
+}
+
+.cv-entry__header p {
+  margin-bottom: 0;
+}
+
+.cv-organization {
+  color: var(--violet-dark);
+  font-weight: 700;
+}
+
+.cv-date,
+.publication-year,
+.publication-venue {
+  color: var(--muted);
+  font-size: .84rem;
+}
+
+.cv-date {
+  flex: 0 0 auto;
+}
+
+.cv-entry li + li,
+.cv-card li + li {
+  margin-top: .35rem;
+}
+
+.publication-list {
+  margin: 1.25rem 0 2.5rem;
+}
+
+.publication-entry {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 64px minmax(0, 1fr);
+  margin-bottom: 1rem;
+  padding: 1.4rem 1.5rem;
+}
+
+.publication-year {
+  color: var(--violet-dark);
+  font-family: monospace;
+  font-weight: 700;
+  margin: .15rem 0 0;
+}
+
+.publication-authors {
+  margin-bottom: .4rem;
+}
+
+.publication-venue {
+  margin-top: 0;
+}
+
+.publications-note {
+  margin-top: 2rem;
+}
+
+@media (max-width: 760px) {
+  .cv-grid--education,
+  .cv-grid--skills,
+  .cv-grid--recognition {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-entry__header {
+    flex-direction: column;
+    gap: .35rem;
+  }
+
+  .publication-entry {
+    gap: .5rem;
+    grid-template-columns: 1fr;
+  }
+}
