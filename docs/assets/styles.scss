@@ -611,8 +611,8 @@ body {
 
 .cv-grid--education .cv-card h3 {
   font-size: 1.3rem;
+  height: 4rem;
   line-height: 1.35;
-  min-height: 3.5rem;
 }
 
 .cv-grid--education .cv-card {
@@ -626,7 +626,7 @@ body {
 
 .cv-degree-details {
   display: grid;
-  grid-template-rows: 3.1rem auto;
+  grid-template-rows: 3.8rem auto;
 }
 
 .cv-degree-details p {
@@ -717,6 +717,10 @@ body {
   .cv-grid--education .cv-card h3,
   .cv-degree-details {
     min-height: 0;
+  }
+
+  .cv-grid--education .cv-card h3 {
+    height: auto;
   }
 
   .cv-degree-details {
