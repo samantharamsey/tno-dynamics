@@ -581,9 +581,9 @@ body {
 
 .cv-profile__name {
   color: var(--violet-dark);
-  font-size: 1.7rem;
+  font-size: 2.4rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .cv-profile__role {
@@ -709,6 +709,10 @@ body {
 }
 
 @media (max-width: 760px) {
+  .cv-profile__name {
+    font-size: 2rem;
+  }
+
   .cv-grid--education .cv-organization,
   .cv-grid--education .cv-card h3,
   .cv-degree-details {

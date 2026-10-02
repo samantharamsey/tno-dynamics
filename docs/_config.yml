@@ -26,8 +26,6 @@ navigation_header:
     url: /publications/
   - title: CV
     url: /cv/
-  - title: About
-    url: /about/
 
 navigation_footer:
   - title: GitHub
